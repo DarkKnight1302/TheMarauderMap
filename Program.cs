@@ -1,3 +1,4 @@
+using Blazored.SessionStorage;
 using CricHeroesAnalytics.Services;
 using CricHeroesAnalytics.Services.Interfaces;
 using TheMarauderMap.ApiClient;
@@ -18,7 +19,9 @@ builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
 builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
 builder.Services.AddSingleton<IUpstoxApiClient, UpStoxApiClient>();
 builder.Services.AddSingleton<IAccessTokenRepository, AccessTokenRepository>();
+builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddMemoryCache();
+builder.Services.AddBlazoredSessionStorage();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

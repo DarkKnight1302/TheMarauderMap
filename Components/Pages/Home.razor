@@ -1,7 +1,30 @@
 ﻿@page "/"
+@using CricHeroesAnalytics.Services.Interfaces
+@using TheMarauderMap.Components.Layout
+@rendermode InteractiveServer
+@inherits LayoutComponentBase;
+@layout MainLayout;
+
+@inject ISecretService secretService;
+@inject IJSRuntime jsRuntime;
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<!-- Add a button to launch the Upstox login URL -->
+<button @onclick="LaunchUpstoxLogin">Login with Upstox</button>
+
+@code {
+    void LaunchUpstoxLogin()
+    {
+        var clientId = secretService.GetSecretValue("UptstoxApiKey");
+        string redirectUri = "https://themaraudermap-gxbsh6a4a7hdcmb0.centralindia-01.azurewebsites.net/api/OAuth/callback";
+        var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}";
+
+        // Use JS interop to navigate to the URL
+        jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
+    }
+}

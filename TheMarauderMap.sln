@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheMarauderMap", "TheMarauderMap.csproj", "{6512648C-63F2-40E4-A0E0-5B300D90CD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheMarauderMap", "TheMarauderMap.csproj", "{6512648C-63F2-40E4-A0E0-5B300D90CD31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

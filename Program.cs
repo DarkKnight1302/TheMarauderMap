@@ -1,6 +1,7 @@
 using CricHeroesAnalytics.Services;
 using CricHeroesAnalytics.Services.Interfaces;
 using TheMarauderMap.Components;
+using TheMarauderMap.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ISecretService, SecretService>();
+builder.Services.AddSingleton<IUserLoginService, UserLoginService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

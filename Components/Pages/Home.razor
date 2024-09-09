@@ -1,11 +1,13 @@
 ﻿@page "/"
 @using CricHeroesAnalytics.Services.Interfaces
 @using TheMarauderMap.Components.Layout
+@using TheMarauderMap.Services.Interfaces
 @rendermode InteractiveServer
 @inherits LayoutComponentBase;
 @layout MainLayout;
 
 @inject ISecretService secretService;
+@inject IUserLoginService userLoginService;
 @inject IJSRuntime jsRuntime;
 
 <PageTitle>Home</PageTitle>
@@ -16,8 +18,16 @@ Welcome to your new app.
 
 <!-- Add a button to launch the Upstox login URL -->
 <button @onclick="LaunchUpstoxLogin">Login with Upstox</button>
+<button @onclick="FetchLoginCode">Fetch Login Code</button>
+
+@if (!string.IsNullOrEmpty(userLoginCode))
+{
+    <p>User Login Code: @userLoginCode</p>
+}
 
 @code {
+    private string userLoginCode;
+
     void LaunchUpstoxLogin()
     {
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
@@ -26,5 +36,11 @@ Welcome to your new app.
 
         // Use JS interop to navigate to the URL
         jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
+    }
+
+    void FetchLoginCode()
+    {
+        userLoginCode = userLoginService.GetUserLoginCode();
+        this.StateHasChanged();
     }
 }

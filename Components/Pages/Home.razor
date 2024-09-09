@@ -31,8 +31,9 @@ Welcome to your new app.
     void LaunchUpstoxLogin()
     {
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
-        string redirectUri = "https://themaraudermap-gxbsh6a4a7hdcmb0.centralindia-01.azurewebsites.net/api/OAuth/callback";
-        var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}";
+        string redirectUri = secretService.GetSecretValue("redirect_uri");
+        string userSessionId = "Robin123";
+        var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";
 
         // Use JS interop to navigate to the URL
         jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
@@ -40,7 +41,7 @@ Welcome to your new app.
 
     void FetchLoginCode()
     {
-        userLoginCode = userLoginService.GetUserLoginCode();
+        userLoginCode = userLoginService.GetUserLoginCode("Robin123");
         this.StateHasChanged();
     }
 }

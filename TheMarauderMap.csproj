@@ -8,12 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.40.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="RestSharp" Version="112.0.0" />
-    <PackageReference Include="upstox-dotnet-sdk" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

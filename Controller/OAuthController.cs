@@ -17,13 +17,13 @@ namespace TheMarauderMap.Controller
 
         [HttpGet]
         [Route("callback")]
-        public async Task<IActionResult> Callback(string code)
+        public async Task<IActionResult> Callback(string code, string state)
         {
             // Process the authorization code
             // Exchange the code for an access token
             this.logger.LogInformation($"Recieved callback token code {code}");
-            this._userLoginService.SetUserLoginCode(code);
-            return Ok($"OAuth2 callback successful {code}");
+            this._userLoginService.SetUserLoginCode(code, state);
+            return Ok($"OAuth2 callback successful {code} : {state}");
         }
 
     }

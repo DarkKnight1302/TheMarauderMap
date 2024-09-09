@@ -1,6 +1,9 @@
 using CricHeroesAnalytics.Services;
 using CricHeroesAnalytics.Services.Interfaces;
+using TheMarauderMap.ApiClient;
 using TheMarauderMap.Components;
+using TheMarauderMap.Repositories;
+using TheMarauderMap.Services;
 using TheMarauderMap.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +14,11 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ISecretService, SecretService>();
 builder.Services.AddSingleton<IUserLoginService, UserLoginService>();
-
+builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
+builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
+builder.Services.AddSingleton<IUpstoxApiClient, UpStoxApiClient>();
+builder.Services.AddSingleton<IAccessTokenRepository, AccessTokenRepository>();
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

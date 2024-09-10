@@ -2,8 +2,11 @@
 {
     public interface IUserLoginService
     {
-        public void SetUserLoginCode(string code, string userId);
+        public Task LoginUser(string code, string userSessionId);
 
-        public string GetUserLoginCode(string userId);
+        public Task<bool> IsLoggedIn(string userSessionId);
+
+        public Task<string> GetUserId(string userSessionId);
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Mvc;
+using TheMarauderMap.Constants;
 using TheMarauderMap.Services.Interfaces;
 
 namespace TheMarauderMap.Controller
@@ -9,6 +11,7 @@ namespace TheMarauderMap.Controller
     {
         private readonly ILogger<OAuthController> logger;
         private readonly IUserLoginService _userLoginService;
+
         public OAuthController(ILogger<OAuthController> logger, IUserLoginService userLoginService)
         {
             this.logger = logger;
@@ -19,12 +22,17 @@ namespace TheMarauderMap.Controller
         [Route("callback")]
         public async Task<IActionResult> Callback(string code, string state)
         {
-            // Process the authorization code
-            // Exchange the code for an access token
-            this.logger.LogInformation($"Recieved callback token code {code}");
-            this._userLoginService.SetUserLoginCode(code, state);
-            return Ok($"OAuth2 callback successful {code} : {state}");
+            try
+            {
+                this.logger.LogInformation($"Recieved callback token code {code} : {state}");
+                await this._userLoginService.LoginUser(code, state);
+                return Ok($"Login Successful!");
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"{ex.Message} \n {ex.StackTrace}");
+                return StatusCode(500, ex.Message);
+            }
         }
-
     }
 }

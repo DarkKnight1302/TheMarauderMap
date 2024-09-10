@@ -15,5 +15,7 @@ namespace TheMarauderMap.Entities
         public string UserId { get; set; }
 
         public DateTimeOffset CreationTime { get; set; }
+
+        public DateTimeOffset ExpiryTime { get; set; }
     }
 }

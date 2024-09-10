@@ -5,5 +5,7 @@
         public Task UpdateAccessToken(string userId, string accessToken);
 
         public Task<string> GetAccessToken(string userId);
+
+        public Task<string> GetActiveAccessToken();
     }
 }

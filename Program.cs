@@ -20,6 +20,7 @@ builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
 builder.Services.AddSingleton<IUpstoxApiClient, UpStoxApiClient>();
 builder.Services.AddSingleton<IAccessTokenRepository, AccessTokenRepository>();
 builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
+builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();
 var app = builder.Build();

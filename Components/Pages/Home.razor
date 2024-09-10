@@ -1,6 +1,9 @@
 ﻿@page "/"
+@using Blazored.SessionStorage
 @using CricHeroesAnalytics.Services.Interfaces
 @using TheMarauderMap.Components.Layout
+@using TheMarauderMap.Constants
+@using TheMarauderMap.Repositories
 @using TheMarauderMap.Services.Interfaces
 @rendermode InteractiveServer
 @inherits LayoutComponentBase;
@@ -9,6 +12,8 @@
 @inject ISecretService secretService;
 @inject IUserLoginService userLoginService;
 @inject IJSRuntime jsRuntime;
+@inject ISessionRepository sessionRepository;
+@inject ISessionStorageService sessionStorage;
 
 <PageTitle>Home</PageTitle>
 
@@ -18,30 +23,23 @@ Welcome to your new app.
 
 <!-- Add a button to launch the Upstox login URL -->
 <button @onclick="LaunchUpstoxLogin">Login with Upstox</button>
-<button @onclick="FetchLoginCode">Fetch Login Code</button>
-
-@if (!string.IsNullOrEmpty(userLoginCode))
-{
-    <p>User Login Code: @userLoginCode</p>
-}
 
 @code {
-    private string userLoginCode;
-
-    void LaunchUpstoxLogin()
+    async void LaunchUpstoxLogin()
     {
+        if (await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey))
+        {
+            string existingSessionId = await sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+            if (await this.userLoginService.IsLoggedIn(existingSessionId))
+            {
+                return;
+            }
+        }
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
         string redirectUri = secretService.GetSecretValue("redirect_uri");
-        string userSessionId = "Robin123";
+        string userSessionId = await sessionRepository.CreateNewSession();
+        await sessionStorage.SetItemAsync<string>(GlobalConstants.SessionIdKey, userSessionId);
         var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";
-
-        // Use JS interop to navigate to the URL
-        jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
-    }
-
-    void FetchLoginCode()
-    {
-        userLoginCode = userLoginService.GetUserLoginCode("Robin123");
-        this.StateHasChanged();
+        await jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
     }
 }

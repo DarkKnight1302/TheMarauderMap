@@ -1,5 +1,7 @@
 ﻿
 using CricHeroesAnalytics.Services.Interfaces;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using TheMarauderMap.Responses;
 
 namespace TheMarauderMap.ApiClient
@@ -48,8 +50,10 @@ namespace TheMarauderMap.ApiClient
                     // Check for success
                     response.EnsureSuccessStatusCode();
 
+                    string responseString = await response.Content.ReadAsStringAsync();
+
                     // Read the response content
-                    AccessTokenResponse accessTokenResponse = await response.Content.ReadFromJsonAsync<AccessTokenResponse>();
+                    AccessTokenResponse accessTokenResponse = JsonConvert.DeserializeObject<AccessTokenResponse>(responseString);
                     return accessTokenResponse;
                 }
                 catch (HttpRequestException e)
@@ -58,6 +62,48 @@ namespace TheMarauderMap.ApiClient
                 }
                 return null;
             }
+        }
+
+        public async Task<Dictionary<string, double>> GetStockPrice(List<string> stockIds, string accessToken)
+        {
+            // Initialize HttpClient
+            Dictionary<string, double> stockPriceDict = new Dictionary<string, double>();
+            using (HttpClient client = new HttpClient())
+            {
+                // Set request headers
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Api-Version", "2.0");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                string combinedSymbol = string.Join(",", stockIds);
+                // Define the request URI
+                string requestUri = $"{BaseUrl}/market-quote/ltp?symbol={combinedSymbol}";
+
+                try
+                {
+                    // Send the request
+                    HttpResponseMessage response = await client.GetAsync(requestUri);
+
+                    // Ensure we got a successful response
+                    response.EnsureSuccessStatusCode();
+
+                    // Read and output the response content
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    StockApiResponse stockApiResponse = JsonConvert.DeserializeObject<StockApiResponse>(responseBody);
+                    var data = stockApiResponse.Data;
+                    foreach (var kv in data)
+                    {
+                        StockData stockData = kv.Value;
+                        stockPriceDict.TryAdd(stockData.InstrumentToken, stockData.LastPrice);
+                    }
+                    return stockPriceDict;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request error: {e.Message}");
+                }
+            }
+            return stockPriceDict;
         }
     }
 }

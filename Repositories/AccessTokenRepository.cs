@@ -1,6 +1,7 @@
 ﻿using CricHeroesAnalytics.Extensions;
 using CricHeroesAnalytics.Services.Interfaces;
 using Microsoft.Azure.Cosmos;
+using System.ComponentModel;
 using TheMarauderMap.Entities;
 
 namespace TheMarauderMap.Repositories
@@ -30,6 +31,28 @@ namespace TheMarauderMap.Repositories
             return string.Empty;
         }
 
+        public async Task<string> GetActiveAccessToken()
+        {
+            var container = FetchContainer();
+            var currentTime = DateTimeOffset.UtcNow.ToIndiaTime();
+            var sixHoursAgo = currentTime.AddHours(-6);
+
+            var query = new QueryDefinition(
+                "SELECT * FROM c WHERE c.RefreshTime >= @sixHoursAgo")
+                .WithParameter("@sixHoursAgo", sixHoursAgo);
+
+            var queryResultSetIterator = container.GetItemQueryIterator<AccessToken>(query);
+
+            if (queryResultSetIterator.HasMoreResults)
+            {
+                var response = await queryResultSetIterator.ReadNextAsync();
+                AccessToken accessToken = response.FirstOrDefault();
+                return accessToken?.Accesstoken ?? null;
+            }
+
+            return null; // No matching token found
+        }
+
         public async Task UpdateAccessToken(string userId, string accessToken)
         {
             var container = FetchContainer();
@@ -43,7 +66,7 @@ namespace TheMarauderMap.Repositories
             await container.UpsertItemAsync(accessTokenObj);
         }
 
-        private Container FetchContainer()
+        private Microsoft.Azure.Cosmos.Container FetchContainer()
         {
             return this._cosmosDbService.GetContainer("AccessToken");
         }

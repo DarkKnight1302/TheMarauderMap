@@ -23,7 +23,8 @@ namespace TheMarauderMap.Repositories
             {
                 Id = guid,
                 SessionId = guid,
-                CreationTime = DateTimeOffset.UtcNow.ToIndiaTime()
+                CreationTime = DateTimeOffset.UtcNow.ToIndiaTime(),
+                ExpiryTime = DateTimeOffset.UtcNow.AddMinutes(15).ToIndiaTime()
             };
             ItemResponse<Session> itemResponse = await container.CreateItemAsync(session, new PartitionKey(guid));
             return itemResponse.Resource.SessionId;

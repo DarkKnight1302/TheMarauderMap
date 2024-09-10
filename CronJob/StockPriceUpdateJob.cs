@@ -27,7 +27,7 @@ namespace TheMarauderMap.CronJob
 
         public async Task Execute(IJobExecutionContext context)
         {
-            string JobName = context.JobDetail.Key.Name;
+            string JobName = context?.JobDetail?.Key?.Name ?? "Test";
             string accessToken = await this.accessTokenService.GetActiveAccessToken();
             if (accessToken == null)
             {
@@ -36,7 +36,7 @@ namespace TheMarauderMap.CronJob
             }
             List<Stock> allStocks = await this.stockRepository.GetAllStocks();
             List<string> stockIds = allStocks.Select(x => x.Id).ToList();
-            var stockIdChunks = stockIds.Chunk(1000);
+            var stockIdChunks = stockIds.Chunk(500);
             Dictionary<string, double> priceDictionary = new Dictionary<string, double>();
             DateTimeOffset currentDate = DateTimeOffset.UtcNow.ToIndiaTime();
             foreach (var chunk in stockIdChunks)

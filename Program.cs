@@ -1,8 +1,10 @@
 using Blazored.SessionStorage;
 using CricHeroesAnalytics.Services;
 using CricHeroesAnalytics.Services.Interfaces;
+using Quartz;
 using TheMarauderMap.ApiClient;
 using TheMarauderMap.Components;
+using TheMarauderMap.CronJob;
 using TheMarauderMap.Repositories;
 using TheMarauderMap.Services;
 using TheMarauderMap.Services.Interfaces;
@@ -23,6 +25,19 @@ builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddQuartz(q =>
+{
+    var jobKey = new JobKey("StockPriceUpdate");
+
+    q.AddJob<StockPriceUpdateJob>(opts => opts.WithIdentity(jobKey));
+
+    q.AddTrigger(opts => opts
+                        .ForJob(jobKey)
+                        .WithIdentity("StockPriceUpdate-trigger")
+                        .WithCronSchedule("0 0 14 * * ?"));
+});
+
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

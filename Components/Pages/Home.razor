@@ -27,10 +27,13 @@ Welcome to your new app.
 @code {
     async void LaunchUpstoxLogin()
     {
-        if (await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey))
+        this.StateHasChanged();
+        bool sessionExists = await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey);
+        if (sessionExists)
         {
             string existingSessionId = await sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
-            if (await this.userLoginService.IsLoggedIn(existingSessionId))
+            bool userLoggedIn = await this.userLoginService.IsLoggedIn(existingSessionId);
+            if (userLoggedIn)
             {
                 return;
             }
@@ -41,5 +44,6 @@ Welcome to your new app.
         await sessionStorage.SetItemAsync<string>(GlobalConstants.SessionIdKey, userSessionId);
         var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";
         await jsRuntime.InvokeVoidAsync("open", upstoxLoginUrl, "_blank");
+        this.StateHasChanged();
     }
 }

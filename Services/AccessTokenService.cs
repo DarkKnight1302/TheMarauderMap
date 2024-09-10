@@ -32,7 +32,12 @@ namespace TheMarauderMap.Services
 
         public async Task<AccessTokenResponse> GenerateAccessToken(string code)
         {
-            return await this._upstoxApiClient.GenerateAccessToken(code);
+            AccessTokenResponse accessTokenResponse = await this._upstoxApiClient.GenerateAccessToken(code);
+            if (accessTokenResponse != null)
+            {
+                await this._accessTokenRepository.UpdateAccessToken(accessTokenResponse.UserId, accessTokenResponse.AccessToken);
+            }
+            return accessTokenResponse;
         }
 
         public async Task<string> GetActiveAccessToken()

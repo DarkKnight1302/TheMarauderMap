@@ -46,7 +46,7 @@ namespace TheMarauderMap.Repositories
             var container = this.cosmosDbService.GetContainer("JobExecution");
             JobExecution jobExecution = await GetJobExecutionAsync(jobId);
             jobExecution.Status = Enums.JobStatus.Failed;
-            jobExecution.Ended = DateTimeOffset.UtcNow;
+            jobExecution.Ended = DateTimeOffset.UtcNow.ToIndiaTime();
             jobExecution.FailureReason = reason;
             await container.UpsertItemAsync(jobExecution, new PartitionKey(jobId));
             this.logger.LogInformation($"Failed job execution {JsonUtil.SerializeObject(jobExecution)}");
@@ -57,7 +57,7 @@ namespace TheMarauderMap.Repositories
             var container = this.cosmosDbService.GetContainer("JobExecution");
             JobExecution jobExecution = await GetJobExecutionAsync(jobId);
             jobExecution.Status = Enums.JobStatus.Succeeded;
-            jobExecution.Ended = DateTimeOffset.UtcNow;
+            jobExecution.Ended = DateTimeOffset.UtcNow.ToIndiaTime();
             await this.retryStrategy.ExecuteAsync(() => container.UpsertItemAsync(jobExecution, new PartitionKey(jobId)));
             this.logger.LogInformation($"Succeeded job execution {JsonUtil.SerializeObject(jobExecution)}");
         }
@@ -69,7 +69,7 @@ namespace TheMarauderMap.Repositories
                 JobId = jobId,
                 Id = jobId,
                 JobName = JobName,
-                Created = DateTimeOffset.UtcNow,
+                Created = DateTimeOffset.UtcNow.ToIndiaTime(),
                 Status = Enums.JobStatus.Started
             };
             var container = this.cosmosDbService.GetContainer("JobExecution");

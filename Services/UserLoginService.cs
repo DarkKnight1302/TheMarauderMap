@@ -32,7 +32,13 @@ namespace TheMarauderMap.Services
         public async Task<bool> IsLoggedIn(string userSessionId)
         {
             Session session  = await this._sessionRepository.GetSession(userSessionId);
-            if (session != null && session.ExpiryTime > DateTimeOffset.UtcNow.ToIndiaTime() && !string.IsNullOrEmpty(session.UserId))
+            DateTimeOffset currentTime = DateTimeOffset.UtcNow.ToIndiaTime();
+            if (session != null)
+            {
+                Console.WriteLine($"Session {session.ToString()} : {currentTime}");
+            }
+
+            if (session != null && session.ExpiryTime > currentTime && !string.IsNullOrEmpty(session.UserId))
             {
                 return true;
             }

@@ -17,5 +17,10 @@ namespace TheMarauderMap.Entities
         public DateTimeOffset CreationTime { get; set; }
 
         public DateTimeOffset ExpiryTime { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id} : {SessionId} : {Accesstoken} : {UserId} : {CreationTime} : {ExpiryTime}";
+        }
     }
 }

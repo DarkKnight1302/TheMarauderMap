@@ -1,13 +1,11 @@
 using Blazored.SessionStorage;
-using CricHeroesAnalytics.Services;
-using CricHeroesAnalytics.Services.Interfaces;
+using TheMarauderMap.Services;
+using TheMarauderMap.Services.Interfaces;
 using Quartz;
 using TheMarauderMap.ApiClient;
 using TheMarauderMap.Components;
 using TheMarauderMap.CronJob;
 using TheMarauderMap.Repositories;
-using TheMarauderMap.Services;
-using TheMarauderMap.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

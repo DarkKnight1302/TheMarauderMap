@@ -1,5 +1,4 @@
-﻿using CricHeroesAnalytics.Services.Interfaces;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 using TheMarauderMap.Entities;
 using TheMarauderMap.Services.Interfaces;

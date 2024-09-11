@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using Blazored.SessionStorage
-@using CricHeroesAnalytics.Services.Interfaces
 @using TheMarauderMap.Components.Layout
 @using TheMarauderMap.Constants
 @using TheMarauderMap.Repositories
@@ -27,7 +26,6 @@ Welcome to your new app.
 @code {
     async void LaunchUpstoxLogin()
     {
-        this.StateHasChanged();
         bool sessionExists = await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey);
         if (sessionExists)
         {

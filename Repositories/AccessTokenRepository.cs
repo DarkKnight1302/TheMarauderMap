@@ -1,7 +1,6 @@
-﻿using CricHeroesAnalytics.Extensions;
-using CricHeroesAnalytics.Services.Interfaces;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using TheMarauderMap.Entities;
+using TheMarauderMap.Extensions;
 using TheMarauderMap.Services.Interfaces;
 
 namespace TheMarauderMap.Repositories

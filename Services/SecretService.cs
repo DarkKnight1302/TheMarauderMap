@@ -1,6 +1,6 @@
-﻿using CricHeroesAnalytics.Services.Interfaces;
+﻿using TheMarauderMap.Services.Interfaces;
 
-namespace CricHeroesAnalytics.Services
+namespace TheMarauderMap.Services
 {
     public class SecretService : ISecretService
     {

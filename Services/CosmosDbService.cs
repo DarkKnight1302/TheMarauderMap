@@ -1,8 +1,8 @@
-﻿using CricHeroesAnalytics.Services.Interfaces;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
+using TheMarauderMap.Services.Interfaces;
 
-namespace CricHeroesAnalytics.Services
+namespace TheMarauderMap.Services
 {
     public class CosmosDbService : ICosmosDbService
     {

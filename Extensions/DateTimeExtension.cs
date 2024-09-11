@@ -1,4 +1,4 @@
-﻿namespace CricHeroesAnalytics.Extensions
+﻿namespace TheMarauderMap.Extensions
 {
     public static class DateTimeExtension
     {

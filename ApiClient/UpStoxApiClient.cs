@@ -1,5 +1,4 @@
-﻿
-using CricHeroesAnalytics.Services.Interfaces;
+﻿using TheMarauderMap.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using TheMarauderMap.Responses;

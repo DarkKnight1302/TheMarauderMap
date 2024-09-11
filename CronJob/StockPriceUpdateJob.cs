@@ -1,4 +1,4 @@
-﻿using CricHeroesAnalytics.Extensions;
+﻿using TheMarauderMap.Extensions;
 using Quartz;
 using TheMarauderMap.ApiClient;
 using TheMarauderMap.Entities;

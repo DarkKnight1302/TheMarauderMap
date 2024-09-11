@@ -1,5 +1,5 @@
-﻿using CricHeroesAnalytics.Extensions;
-using TheMarauderMap.Entities;
+﻿using TheMarauderMap.Entities;
+using TheMarauderMap.Extensions;
 using TheMarauderMap.Repositories;
 using TheMarauderMap.Responses;
 using TheMarauderMap.Services.Interfaces;

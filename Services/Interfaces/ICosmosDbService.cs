@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 
-namespace CricHeroesAnalytics.Services.Interfaces
+namespace TheMarauderMap.Services.Interfaces
 {
     public interface ICosmosDbService
     {

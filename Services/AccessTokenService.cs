@@ -1,6 +1,4 @@
-﻿using CricHeroesAnalytics.Services.Interfaces;
-using System.Diagnostics;
-using TheMarauderMap.ApiClient;
+﻿using TheMarauderMap.ApiClient;
 using TheMarauderMap.Repositories;
 using TheMarauderMap.Responses;
 using TheMarauderMap.Services.Interfaces;

@@ -26,6 +26,7 @@ builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddSingleton<IRetryStrategy>(sp => new RetryStrategy(maxRetries: 3, delay: TimeSpan.FromSeconds(1)));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();
+builder.Logging.AddConsole();
 builder.Services.AddQuartz(q =>
 {
     var jobKey = new JobKey("StockPriceUpdate");

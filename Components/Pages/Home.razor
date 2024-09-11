@@ -31,8 +31,10 @@ Welcome to your new app.
         bool sessionExists = await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey);
         if (sessionExists)
         {
+            Console.WriteLine("Session exists");
             string existingSessionId = await sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
             bool userLoggedIn = await this.userLoginService.IsLoggedIn(existingSessionId);
+            Console.WriteLine($"User login status {userLoggedIn}");
             if (userLoggedIn)
             {
                 return;

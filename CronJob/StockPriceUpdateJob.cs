@@ -14,23 +14,37 @@ namespace TheMarauderMap.CronJob
         private readonly IStockRepository stockRepository;
         private readonly IUpstoxApiClient upstoxApiClient;
         private readonly IRetryStrategy retryStrategy;
+        private readonly IJobExecutionRepository jobExecutionRepository;
 
         public StockPriceUpdateJob(IAccessTokenService accessTokenService,
             ILogger<StockPriceUpdateJob> logger,
             IStockRepository stockRepository,
             IUpstoxApiClient upstoxApiClient,
-            IRetryStrategy retryStrategy)
+            IRetryStrategy retryStrategy,
+            IJobExecutionRepository jobExecutionRepository)
         {
             this.accessTokenService = accessTokenService;
             this.logger = logger;
             this.stockRepository = stockRepository;
             this.upstoxApiClient = upstoxApiClient;
             this.retryStrategy = retryStrategy;
+            this.jobExecutionRepository = jobExecutionRepository;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await this.retryStrategy.ExecuteAsync(() => UpdateStockPrice(context));
+            string JobName = context.JobDetail.Key.Name;
+            string jobId = $"{JobName}_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
+            await this.jobExecutionRepository.StartJobExecution(jobId, JobName);
+            try
+            {
+                await this.retryStrategy.ExecuteAsync(() => UpdateStockPrice(context));
+                await this.jobExecutionRepository.JobSucceeded(jobId);
+            }
+            catch (Exception ex)
+            {
+                await this.jobExecutionRepository.JobFailed(jobId, ex.Message);
+            }
         }
 
         private async Task UpdateStockPrice(IJobExecutionContext context)

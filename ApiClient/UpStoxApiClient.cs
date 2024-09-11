@@ -27,7 +27,7 @@ namespace TheMarauderMap.ApiClient
             using (HttpClient client = new HttpClient())
             {
                 string tokenUrl = "/login/authorization/token";
-                var grantType = "authorization_code"; 
+                var grantType = "authorization_code";
 
                 // Prepare the request content
                 var requestBody = new Dictionary<string, string>
@@ -78,31 +78,23 @@ namespace TheMarauderMap.ApiClient
                 // Define the request URI
                 string requestUri = $"{BaseUrl}/market-quote/ltp?symbol={combinedSymbol}";
 
-                try
-                {
-                    // Send the request
-                    HttpResponseMessage response = await client.GetAsync(requestUri);
+                // Send the request
+                HttpResponseMessage response = await client.GetAsync(requestUri);
 
-                    // Ensure we got a successful response
-                    response.EnsureSuccessStatusCode();
+                // Ensure we got a successful response
+                response.EnsureSuccessStatusCode();
 
-                    // Read and output the response content
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    StockApiResponse stockApiResponse = JsonConvert.DeserializeObject<StockApiResponse>(responseBody);
-                    var data = stockApiResponse.Data;
-                    foreach (var kv in data)
-                    {
-                        StockData stockData = kv.Value;
-                        stockPriceDict.TryAdd(stockData.InstrumentToken, stockData.LastPrice);
-                    }
-                    return stockPriceDict;
-                }
-                catch (HttpRequestException e)
+                // Read and output the response content
+                string responseBody = await response.Content.ReadAsStringAsync();
+                StockApiResponse stockApiResponse = JsonConvert.DeserializeObject<StockApiResponse>(responseBody);
+                var data = stockApiResponse.Data;
+                foreach (var kv in data)
                 {
-                    Console.WriteLine($"Request error: {e.Message}");
+                    StockData stockData = kv.Value;
+                    stockPriceDict.TryAdd(stockData.InstrumentToken, stockData.LastPrice);
                 }
+                return stockPriceDict;
             }
-            return stockPriceDict;
         }
     }
 }

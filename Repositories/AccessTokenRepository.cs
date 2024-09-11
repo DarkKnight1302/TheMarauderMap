@@ -1,8 +1,8 @@
 ﻿using CricHeroesAnalytics.Extensions;
 using CricHeroesAnalytics.Services.Interfaces;
 using Microsoft.Azure.Cosmos;
-using System.ComponentModel;
 using TheMarauderMap.Entities;
+using TheMarauderMap.Services.Interfaces;
 
 namespace TheMarauderMap.Repositories
 {
@@ -10,10 +10,12 @@ namespace TheMarauderMap.Repositories
     {
         private readonly ICosmosDbService _cosmosDbService;
         private readonly ILogger<AccessTokenRepository> _logger;
-        public AccessTokenRepository(ICosmosDbService cosmosDbService, ILogger<AccessTokenRepository> logger)
+        private readonly IRetryStrategy _retryStrategy;
+        public AccessTokenRepository(ICosmosDbService cosmosDbService, ILogger<AccessTokenRepository> logger, IRetryStrategy retryStrategy)
         {
             this._cosmosDbService = cosmosDbService;
             _logger = logger;
+            this._retryStrategy = retryStrategy;
         }
 
         public async Task<string> GetAccessToken(string userId)
@@ -63,7 +65,8 @@ namespace TheMarauderMap.Repositories
                 Accesstoken = accessToken,
                 RefreshTime = DateTimeOffset.UtcNow.ToIndiaTime()
             };
-            await container.UpsertItemAsync(accessTokenObj);
+
+            await this._retryStrategy.ExecuteAsync(() => container.UpsertItemAsync(accessTokenObj));
         }
 
         private Microsoft.Azure.Cosmos.Container FetchContainer()

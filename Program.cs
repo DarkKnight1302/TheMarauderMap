@@ -23,6 +23,7 @@ builder.Services.AddSingleton<IUpstoxApiClient, UpStoxApiClient>();
 builder.Services.AddSingleton<IAccessTokenRepository, AccessTokenRepository>();
 builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
+builder.Services.AddSingleton<IRetryStrategy>(sp => new RetryStrategy(maxRetries: 3, delay: TimeSpan.FromSeconds(1)));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddQuartz(q =>

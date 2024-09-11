@@ -13,19 +13,27 @@ namespace TheMarauderMap.CronJob
         private readonly ILogger<StockPriceUpdateJob> logger;
         private readonly IStockRepository stockRepository;
         private readonly IUpstoxApiClient upstoxApiClient;
+        private readonly IRetryStrategy retryStrategy;
 
         public StockPriceUpdateJob(IAccessTokenService accessTokenService,
             ILogger<StockPriceUpdateJob> logger,
             IStockRepository stockRepository,
-            IUpstoxApiClient upstoxApiClient)
+            IUpstoxApiClient upstoxApiClient,
+            IRetryStrategy retryStrategy)
         {
             this.accessTokenService = accessTokenService;
             this.logger = logger;
             this.stockRepository = stockRepository;
             this.upstoxApiClient = upstoxApiClient;
+            this.retryStrategy = retryStrategy;
         }
 
         public async Task Execute(IJobExecutionContext context)
+        {
+            await this.retryStrategy.ExecuteAsync(() => UpdateStockPrice(context));
+        }
+
+        private async Task UpdateStockPrice(IJobExecutionContext context)
         {
             this.logger.LogInformation("Starting Stock Price Update job");
             string JobName = context?.JobDetail?.Key?.Name ?? "Test";

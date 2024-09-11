@@ -2,6 +2,7 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 using TheMarauderMap.Entities;
+using TheMarauderMap.Services.Interfaces;
 
 namespace TheMarauderMap.Repositories
 {
@@ -9,11 +10,13 @@ namespace TheMarauderMap.Repositories
     {
         private readonly ICosmosDbService cosmosDbService;
         private readonly ILogger _logger;
+        private readonly IRetryStrategy retryStrategy;
 
-        public StockRepository(ICosmosDbService cosmosDbService, ILogger<StockRepository> logger) 
+        public StockRepository(ICosmosDbService cosmosDbService, ILogger<StockRepository> logger, IRetryStrategy retryStrategy) 
         {
             _logger = logger;
             this.cosmosDbService = cosmosDbService;
+            this.retryStrategy = retryStrategy;
         }
         public async Task<List<Stock>> GetAllStocks()
         {
@@ -48,7 +51,7 @@ namespace TheMarauderMap.Repositories
             var container = FetchContainer();
             foreach (var stock in stocks)
             {
-               await container.UpsertItemAsync(stock, new PartitionKey(stock.Id));
+               await this.retryStrategy.ExecuteAsync(() => container.UpsertItemAsync(stock, new PartitionKey(stock.Id)));
             }
         }
 

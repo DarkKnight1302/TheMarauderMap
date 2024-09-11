@@ -2,6 +2,7 @@
 using CricHeroesAnalytics.Services.Interfaces;
 using Microsoft.Azure.Cosmos;
 using TheMarauderMap.Entities;
+using TheMarauderMap.Services.Interfaces;
 
 namespace TheMarauderMap.Repositories
 {
@@ -9,12 +10,15 @@ namespace TheMarauderMap.Repositories
     {
         private readonly ICosmosDbService cosmosDbService;
         private readonly ILogger _logger;
+        private readonly IRetryStrategy retryStrategy;
 
-        public SessionRepository(ICosmosDbService cosmosDbService, ILogger<SessionRepository> logger)
+        public SessionRepository(ICosmosDbService cosmosDbService, ILogger<SessionRepository> logger, IRetryStrategy retryStrategy)
         {
             this.cosmosDbService = cosmosDbService;
             this._logger = logger;
+            this.retryStrategy = retryStrategy;
         }
+
         public async Task<string> CreateNewSession()
         {
             var container = FetchContainer();
@@ -52,7 +56,7 @@ namespace TheMarauderMap.Repositories
             {
                 session.Accesstoken = AccessToken;
                 session.UserId = userId;
-                await container.ReplaceItemAsync(session, sessionId, new PartitionKey(sessionId));
+                await this.retryStrategy.ExecuteAsync(() => container.ReplaceItemAsync(session, sessionId, new PartitionKey(sessionId)));
             }
         }
 

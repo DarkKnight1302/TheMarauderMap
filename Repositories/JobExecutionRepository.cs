@@ -6,13 +6,13 @@ using TheMarauderMap.Utilities;
 
 namespace TheMarauderMap.Repositories
 {
-    public class JobExecutionRespository : IJobExecutionRepository
+    public class JobExecutionRepository : IJobExecutionRepository
     {
         private readonly ICosmosDbService cosmosDbService;
-        private readonly ILogger<JobExecutionRespository> logger;
+        private readonly ILogger<JobExecutionRepository> logger;
         private readonly IRetryStrategy retryStrategy;
 
-        public JobExecutionRespository(ICosmosDbService cosmosDbService, ILogger<JobExecutionRespository> logger, IRetryStrategy retryStrategy)
+        public JobExecutionRepository(ICosmosDbService cosmosDbService, ILogger<JobExecutionRepository> logger, IRetryStrategy retryStrategy)
         {
             this.cosmosDbService = cosmosDbService;
             this.logger = logger;

@@ -21,6 +21,7 @@ builder.Services.AddSingleton<IUpstoxApiClient, UpStoxApiClient>();
 builder.Services.AddSingleton<IAccessTokenRepository, AccessTokenRepository>();
 builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
+builder.Services.AddSingleton<IJobExecutionRepository, JobExecutionRepository>();
 builder.Services.AddSingleton<IRetryStrategy>(sp => new RetryStrategy(maxRetries: 3, delay: TimeSpan.FromSeconds(1)));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();
@@ -34,7 +35,7 @@ builder.Services.AddQuartz(q =>
     q.AddTrigger(opts => opts
                         .ForJob(jobKey)
                         .WithIdentity("StockPriceUpdate-trigger")
-                        .WithCronSchedule("0 30 8 * * ?"));
+                        .WithCronSchedule("0 13 18 * * ?"));
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

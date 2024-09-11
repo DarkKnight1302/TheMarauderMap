@@ -27,6 +27,7 @@ namespace TheMarauderMap.CronJob
 
         public async Task Execute(IJobExecutionContext context)
         {
+            this.logger.LogInformation("Starting Stock Price Update job");
             string JobName = context?.JobDetail?.Key?.Name ?? "Test";
             string accessToken = await this.accessTokenService.GetActiveAccessToken();
             if (accessToken == null)

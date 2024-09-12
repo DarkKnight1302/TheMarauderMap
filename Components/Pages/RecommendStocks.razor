@@ -1,0 +1,128 @@
+﻿@page "/RecommendStocks"
+@rendermode InteractiveServer
+@using Blazored.SessionStorage
+@using TheMarauderMap.Components.Layout
+@using TheMarauderMap.Constants
+@using TheMarauderMap.Responses
+@using TheMarauderMap.Services.Interfaces
+@inject IStockRecommendationService stockService
+@inject ISessionStorageService sessionStorage;
+@inject NavigationManager navigationManager;
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .stock-table {
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .table-header {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+    }
+
+    .table-row {
+        text-align: center;
+        background-color: white;
+    }
+
+        .table-row:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        .table-row:hover {
+            background-color: #e9ecef;
+        }
+
+    .stock-price {
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .header-title {
+        margin-top: 30px;
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 36px;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .refresh-button {
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<h1 class="header-title">Recommended Stocks</h1>
+
+<div class="container">
+    <div class="table-responsive stock-table">
+        <table class="table table-hover">
+            <thead class="table-header">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Trading Symbol</th>
+                    <th>Last Price</th>
+                    <th>Current Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (recommendedStocks != null && recommendedStocks.Any())
+                {
+                    foreach (var stock in recommendedStocks)
+                    {
+                        <tr class="table-row">
+                            <td>@stock.Id</td>
+                            <td>@stock.Name</td>
+                            <td>@stock.TradingSymbol</td>
+                            <td>@stock.LastPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                            <td class="stock-price">@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No stocks available at the moment</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+@code
+{
+    private List<RecommendedStock> recommendedStocks = new List<RecommendedStock>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadStocks();
+        }
+    }
+
+    private async Task LoadStocks()
+    {
+        string sessionId = await sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+        if (string.IsNullOrEmpty(sessionId))
+        {
+            navigationManager.NavigateTo("/");
+            return;
+        }
+        recommendedStocks = await stockService.RecommendStocks(sessionId);
+        StateHasChanged();
+    }
+}

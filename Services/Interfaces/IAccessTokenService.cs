@@ -6,7 +6,7 @@ namespace TheMarauderMap.Services.Interfaces
     {
         public Task<AccessTokenResponse> GenerateAccessToken(string code);
 
-        public string FetchAccessToken(string userId);
+        public Task<string> FetchAccessToken(string sessionId);
 
         public Task<string> GetActiveAccessToken();
     }

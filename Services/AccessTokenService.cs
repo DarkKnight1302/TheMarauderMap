@@ -1,4 +1,5 @@
 ﻿using TheMarauderMap.ApiClient;
+using TheMarauderMap.Entities;
 using TheMarauderMap.Repositories;
 using TheMarauderMap.Responses;
 using TheMarauderMap.Services.Interfaces;
@@ -11,21 +12,31 @@ namespace TheMarauderMap.Services
         private readonly ILogger<AccessTokenService> _logger;
         private readonly ISecretService _secretService;
         private readonly IUpstoxApiClient _upstoxApiClient;
+        private readonly ISessionRepository _sessionRepository;
 
         public AccessTokenService(ISecretService secretService,
             IAccessTokenRepository accessTokenRepository,
             ILogger<AccessTokenService> logger,
-            IUpstoxApiClient upstoxApiClient) 
+            IUpstoxApiClient upstoxApiClient,
+            ISessionRepository sessionRepository) 
         {
             _secretService = secretService;
             _accessTokenRepository = accessTokenRepository;
             this._logger = logger;
             this._upstoxApiClient = upstoxApiClient;
+            this._sessionRepository = sessionRepository;
         }
 
-        public string FetchAccessToken(string userId)
+        public async Task<string> FetchAccessToken(string sessionId)
         {
-            throw new NotImplementedException();
+            Session session = await this._sessionRepository.GetSession(sessionId);
+            if (session == null) 
+            {
+                this._logger.LogError("Session not found");
+                return string.Empty;
+            }
+            string userId = session.UserId;
+            return await this._accessTokenRepository.GetAccessToken(userId);
         }
 
         public async Task<AccessTokenResponse> GenerateAccessToken(string code)

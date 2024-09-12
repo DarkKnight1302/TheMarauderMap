@@ -8,12 +8,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\Map2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\images\Map.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\images\Map.jpeg" />
+    <Resource Include="wwwroot\images\Map2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.40.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Quartz" Version="3.13.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\bootstrap\" />
   </ItemGroup>
 
 </Project>

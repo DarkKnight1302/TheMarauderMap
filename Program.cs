@@ -23,6 +23,8 @@ builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddSingleton<IJobExecutionRepository, JobExecutionRepository>();
 builder.Services.AddSingleton<IStockRecommendationService, StockRecommendationService>();
+builder.Services.AddSingleton<IActiveStockRepository, ActiveStockRepository>();
+builder.Services.AddSingleton<IStockTradeService, StockTradeService>();
 builder.Services.AddSingleton<IRetryStrategy>(sp => new RetryStrategy(maxRetries: 3, delay: TimeSpan.FromSeconds(1)));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();

@@ -3,11 +3,14 @@
 @using Blazored.SessionStorage
 @using TheMarauderMap.Components.Layout
 @using TheMarauderMap.Constants
+@using TheMarauderMap.Entities
 @using TheMarauderMap.Responses
+@using TheMarauderMap.Services
 @using TheMarauderMap.Services.Interfaces
 @inject IStockRecommendationService stockService
 @inject ISessionStorageService sessionStorage;
 @inject NavigationManager navigationManager;
+@inject IStockTradeService stockTradeService;
 
 <style>
     body {
@@ -30,6 +33,7 @@
     .table-row {
         text-align: center;
         background-color: white;
+        cursor: pointer;
     }
 
         .table-row:nth-child(even) {
@@ -60,8 +64,25 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .dropdown-container {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
 </style>
+
 <h1 class="header-title">Recommended Stocks</h1>
+
+@if (successMessage != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @successMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="container">
     <div class="table-responsive stock-table">
@@ -80,12 +101,27 @@
                 {
                     foreach (var stock in recommendedStocks)
                     {
-                        <tr class="table-row">
+                        <tr class="table-row" @onclick="(() => ToggleDropdown(stock.Id))">
                             <td>@stock.Id</td>
                             <td>@stock.Name</td>
                             <td>@stock.TradingSymbol</td>
                             <td>@stock.LastPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
                             <td class="stock-price">@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                        </tr>
+                        <tr class="@($"collapse {GetDropdownClass(stock.Id)}")">
+                            <td colspan="5">
+                                <div class="dropdown-container">
+                                    <div class="form-group">
+                                        <label for="buyPrice">Purchase Price</label>
+                                        <input type="number" class="form-control" @bind="buyPrice" placeholder="Enter purchase price">
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="number" class="form-control" @bind="quantity" placeholder="Enter quantity">
+                                    </div>
+                                    <button class="btn btn-primary mt-3" @onclick="(() => BuyStock(stock))">Buy Stock</button>
+                                </div>
+                            </td>
                         </tr>
                     }
                 }
@@ -102,9 +138,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-@code
-{
+@code {
     private List<RecommendedStock> recommendedStocks = new List<RecommendedStock>();
+    private Dictionary<string, bool> stockDropdowns = new Dictionary<string, bool>();
+    private double buyPrice;
+    private int quantity;
+    private string successMessage;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -123,6 +162,51 @@
             return;
         }
         recommendedStocks = await stockService.RecommendStocks(sessionId);
+        StateHasChanged();
+    }
+
+    private void ToggleDropdown(string stockId)
+    {
+        if (stockDropdowns.ContainsKey(stockId))
+        {
+            stockDropdowns[stockId] = !stockDropdowns[stockId];
+        }
+        else
+        {
+            stockDropdowns[stockId] = true;
+        }
+        StateHasChanged();
+    }
+
+    private string GetDropdownClass(string stockId)
+    {
+        if (stockDropdowns.ContainsKey(stockId) && stockDropdowns[stockId])
+        {
+            return "show";
+        }
+        return "";
+    }
+
+    private async Task BuyStock(RecommendedStock recommendedStock)
+    {
+        Stock stock = recommendedStock;
+        string sessionId = await this.sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+        bool result = await this.stockTradeService.PurchaseStock(sessionId, stock, quantity, buyPrice);
+
+        if (result)
+        {
+            successMessage = "Stock purchased successfully!";
+        }
+        else
+        {
+            successMessage = "Failed to purchase stock. Please try again.";
+        }
+
+        // Optionally, reset the form fields
+        buyPrice = 0;
+        quantity = 0;
+
+        // Notify the Blazor framework that the state has changed
         StateHasChanged();
     }
 }

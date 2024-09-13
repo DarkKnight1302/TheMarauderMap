@@ -5,7 +5,7 @@ namespace TheMarauderMap.Services
 {
     public interface IStockTradeService
     {
-        public Task PurchaseStock(string sessionId, Stock stock, int quantity, double price);
+        public Task<bool> PurchaseStock(string sessionId, Stock stock, int quantity, double price);
 
         public Task SellStock(ActiveStock stock, double sellingPrice);
 

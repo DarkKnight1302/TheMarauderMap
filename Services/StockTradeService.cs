@@ -24,15 +24,24 @@ namespace TheMarauderMap.Services
             this.upstoxApiClient = upstoxApiClient;
         }
 
-        public async Task PurchaseStock(string sessionId, Stock stock, int quantity, double price)
+        public async Task<bool> PurchaseStock(string sessionId, Stock stock, int quantity, double price)
         {
-            Session userSession = await this.sessionRepository.GetSession(sessionId);
-            if (userSession == null)
+            try
             {
-                this.logger.LogError("Session Not found");
-                return;
+                Session userSession = await this.sessionRepository.GetSession(sessionId);
+                if (userSession == null)
+                {
+                    this.logger.LogError("Session Not found");
+                    return false;
+                }
+                await this.activeStockRepository.BuyStock(userSession.UserId, stock, price, quantity);
+                return true;
             }
-            await this.activeStockRepository.BuyStock(userSession.UserId, stock, price, quantity);
+            catch (Exception ex)
+            {
+                this.logger.LogError($"{ex.Message} : {ex.StackTrace}");
+                return false;
+            }
         }
 
         public async Task SellStock(ActiveStock stock, double sellingPrice)

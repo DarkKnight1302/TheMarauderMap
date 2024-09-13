@@ -5,9 +5,6 @@
 @using TheMarauderMap.Repositories
 @using TheMarauderMap.Services.Interfaces
 @rendermode InteractiveServer
-@inherits LayoutComponentBase;
-@layout MainLayout;
-
 @inject ISecretService secretService;
 @inject IUserLoginService userLoginService;
 @inject IJSRuntime jsRuntime;
@@ -25,8 +22,6 @@
         <button class="cool-button" @onclick="LaunchUpstoxLogin">Login with Upstox</button>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
     /* Background with Marauder's Map inspired theme */

@@ -24,6 +24,37 @@ namespace TheMarauderMap.Services
             this.upstoxApiClient = upstoxApiClient;
         }
 
+        public async Task<List<PurchasedStock>> GetAllActiveStocks(string sessionId)
+        {
+            Session userSession = await this.sessionRepository.GetSession(sessionId);
+            if (userSession == null)
+            {
+                this.logger.LogError("Session Not found");
+                return null;
+            }
+            List<ActiveStock> activeStocks = await this.activeStockRepository.GetAllActiveStocksAsync(userSession.UserId);
+            if (activeStocks == null || activeStocks.Count == 0)
+            {
+                return null;
+            }
+            List<string> stockIds = activeStocks.Select(x => x.StockId).ToList();
+            Dictionary<string, double> priceDictionary = await this.upstoxApiClient.GetStockPrice(stockIds, userSession.Accesstoken);
+            DateTimeOffset currentDate = DateTimeOffset.UtcNow.ToIndiaTime();
+            List<PurchasedStock> purchasedStocks = new List<PurchasedStock>();
+            foreach (var activeStock in activeStocks)
+            {
+                PurchasedStock purchased = new PurchasedStock(activeStock);
+                if (priceDictionary.ContainsKey(activeStock.StockId))
+                {
+                    double gainPercent = (100d * (priceDictionary[activeStock.StockId] - activeStock.BuyPrice)) / activeStock.BuyPrice;
+                    purchased.CurrentPrice = priceDictionary[activeStock.StockId];
+                    purchased.GainPercent = ((int)gainPercent);
+                }
+                purchasedStocks.Add(purchased);
+            }
+            return purchasedStocks;
+        }
+
         public async Task<bool> PurchaseStock(string sessionId, Stock stock, int quantity, double price)
         {
             try

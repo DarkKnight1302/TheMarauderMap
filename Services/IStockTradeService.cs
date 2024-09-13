@@ -10,5 +10,7 @@ namespace TheMarauderMap.Services
         public Task SellStock(ActiveStock stock, double sellingPrice);
 
         public Task<PurchasedStock> StockToSell(string sessionId);
+
+        public Task<List<PurchasedStock>> GetAllActiveStocks(string sessionId);
     }
 }

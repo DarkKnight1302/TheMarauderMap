@@ -10,6 +10,7 @@
 @inject IStockTradeService stockTradeService;
 @inject ISessionStorageService sessionStorageService;
 @inject ISessionRepository sessionRepository;
+@inject NavigationManager navigationManager;
 
 @code {
     double totalInvested = 0d;
@@ -23,6 +24,11 @@
         if (firstRender)
         {
             string sessionId = await sessionStorageService.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                navigationManager.NavigateTo("/");
+                return;
+            }
             Session session = await sessionRepository.GetSession(sessionId);
             if (session == null)
             {

@@ -51,6 +51,11 @@ namespace TheMarauderMap.CronJob
         {
             this.logger.LogInformation("Starting Stock Price Update job");
             string JobName = context?.JobDetail?.Key?.Name ?? "Test";
+            DateTimeOffset currentDateIndia = DateTimeOffset.UtcNow.ToIndiaTime();
+            if (currentDateIndia.DayOfWeek == DayOfWeek.Sunday || currentDateIndia.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return;
+            }
             string accessToken = await this.accessTokenService.GetActiveAccessToken();
             if (accessToken == null)
             {

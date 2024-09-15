@@ -12,16 +12,20 @@ namespace TheMarauderMap.Services
         private readonly ISessionRepository sessionRepository;
         private readonly ILogger<StockTradeService> logger;
         private readonly IUpstoxApiClient upstoxApiClient;
+        private readonly IUserInvestmentsRepository userInvestmentsRepository;
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public StockTradeService(IActiveStockRepository activeStockRepository,
             ISessionRepository sessionRepository,
             ILogger<StockTradeService> logger,
-            IUpstoxApiClient upstoxApiClient)
+            IUpstoxApiClient upstoxApiClient,
+            IUserInvestmentsRepository userInvestmentsRepository)
         {
             this.activeStockRepository = activeStockRepository;
             this.sessionRepository = sessionRepository;
             this.logger = logger;
             this.upstoxApiClient = upstoxApiClient;
+            this.userInvestmentsRepository = userInvestmentsRepository;
         }
 
         public async Task<List<PurchasedStock>> GetAllActiveStocks(string sessionId)
@@ -75,9 +79,31 @@ namespace TheMarauderMap.Services
             }
         }
 
-        public async Task SellStock(ActiveStock stock, double sellingPrice)
+        public async Task<bool> SellStock(ActiveStock stock, double sellingPrice)
         {
-            await this.activeStockRepository.SellStock(stock, sellingPrice);
+            try
+            {
+                await semaphoreSlim.WaitAsync();
+                bool exists = await this.activeStockRepository.ActiveStockExists(stock.Id, stock.StockId);
+                if (exists)
+                {
+                    await this.activeStockRepository.SellStock(stock, sellingPrice);
+                    double invested = stock.BuyPrice * stock.Quantity;
+                    double returns = sellingPrice * stock.Quantity;
+                    await this.userInvestmentsRepository.AddOrUpdateInvestment(invested, returns, stock.UserId);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex.Message);
+                return false;
+            }
+            finally
+            {
+                this.semaphoreSlim.Release();
+            }
         }
 
         public async Task<PurchasedStock> StockToSell(string sessionId)

@@ -1,0 +1,179 @@
+﻿@page "/InvestmentSummary"
+@rendermode InteractiveServer
+@using Blazored.SessionStorage
+@using TheMarauderMap.Constants
+@using TheMarauderMap.Entities
+@using TheMarauderMap.Repositories
+@using TheMarauderMap.Responses
+@using TheMarauderMap.Services
+@inject IUserInvestmentsRepository userInvestmentRepository;
+@inject IStockTradeService stockTradeService;
+@inject ISessionStorageService sessionStorageService;
+@inject ISessionRepository sessionRepository;
+
+@code {
+    double totalInvested = 0d;
+    double totalReturns = 0d;
+    double totalProfitPercentage = 0d;
+    List<PurchasedStock> stocksToSell = new();
+    DateTimeOffset UpdatedAt;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string sessionId = await sessionStorageService.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+            Session session = await sessionRepository.GetSession(sessionId);
+            if (session == null)
+            {
+                return;
+            }
+            UserInvestment userInvestment = await this.userInvestmentRepository.GetUserInvestment(session.UserId);
+            if (userInvestment == null)
+            {
+                return;
+            }
+            totalInvested = userInvestment.TotalInvestment;
+            totalReturns = userInvestment.TotalReturns;
+            totalProfitPercentage = userInvestment.GainPercent;
+            UpdatedAt = userInvestment.UpdatedAt;
+            this.StateHasChanged();
+            PurchasedStock stock = await this.stockTradeService.StockToSell(sessionId);
+            if (stock != null)
+            {
+                stocksToSell.Add(stock);
+                this.StateHasChanged();
+            }
+        }
+    }
+}
+
+<div class="container mt-5">
+    <!-- Investment Summary Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded mb-5">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">Investment Summary</h2>
+                    <div class="row text-center">
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="summary-item bg-light rounded p-3">
+                                <h4 class="text-secondary">Total Invested</h4>
+                                <p class="display-5 font-weight-bold text-success">@totalInvested.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="summary-item bg-light rounded p-3">
+                                <h4 class="text-secondary">Total Returns</h4>
+                                <p class="display-5 font-weight-bold text-info">@totalReturns.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="summary-item bg-light rounded p-3">
+                                <h4 class="text-secondary">Total Profit %</h4>
+                                <p class="display-5 font-weight-bold text-warning">@totalProfitPercentage.ToString("0.00")%</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="summary-item bg-light rounded p-3">
+                                <h4 class="text-secondary">Updated At</h4>
+                                <p class="display-5 font-weight-bold text-muted">@UpdatedAt.ToString("dd-MM-yyyy")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Stocks to Sell Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded mb-4">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Recommended Stocks to Sell</h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Stock ID</th>
+                                    <th scope="col">Stock Name</th>
+                                    <th scope="col">Purchase Price</th>
+                                    <th scope="col">Current Price</th>
+                                    <th scope="col">Gain %</th>
+                                    <th scope="col">Purchase Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var stock in stocksToSell)
+                                {
+                                    <tr>
+                                        <td>@stock.Id</td>
+                                        <td>@stock.StockId</td>
+                                        <td>@stock.Name</td>
+                                        <td>@stock.BuyPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                                        <td>@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                                        <td>@stock.GainPercent.ToString("0.00")%</td>
+                                        <td>@stock.BuyTime.ToString("dd-MM-yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom styles for investment summary -->
+<style>
+    .summary-item h4 {
+        font-weight: 600;
+        color: #6c757d;
+    }
+
+    .summary-item p {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    .card {
+        border: none;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .card-title {
+        font-weight: 700;
+        color: #343a40; /* Darker color for a more professional look */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern professional font */
+        font-size: 1.75rem; /* Adjusted for better readability */
+    }
+
+    h4 {
+        font-weight: 600;
+        color: #495057; /* Softer gray for subtler look */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.25rem; /* Adjusted size for sub-headings */
+    }
+
+    /* Minor adjustment to table header font for consistency */
+    .table thead th {
+        font-weight: 600;
+        font-size: 1.1rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>

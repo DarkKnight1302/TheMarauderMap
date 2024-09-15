@@ -20,6 +20,20 @@ namespace TheMarauderMap.Repositories
             this.retryStrategy = retryStrategy;
         }
 
+        public async Task<bool> ActiveStockExists(string id, string stockId)
+        {
+            var container = FetchContainer();
+            try
+            {
+                var resp = await container.ReadItemAsync<ActiveStock>(id, new PartitionKey(stockId));
+                return resp.Resource.IsActive;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task BuyStock(string userId, Stock stock, double buyPrice, int quantity)
         {
             await this.semaphoreSlim.WaitAsync();

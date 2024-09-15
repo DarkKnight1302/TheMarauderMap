@@ -33,6 +33,7 @@
     .table-row {
         text-align: center;
         background-color: white;
+        cursor: pointer;
     }
 
         .table-row:nth-child(even) {
@@ -63,8 +64,23 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .dropdown-container {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
 </style>
 <h1 class="header-title">Active Stocks</h1>
+@if (successMessage != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @successMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="container">
     <div class="table-responsive stock-table">
@@ -85,7 +101,7 @@
                 {
                     foreach (var stock in activeStocks)
                     {
-                        <tr class="table-row">
+                        <tr class="table-row" @onclick="(() => ToggleDropdown(stock.Id))">
                             <td>@stock.Id</td>
                             <td>@stock.Name</td>
                             <td>@stock.TradingSymbol</td>
@@ -93,6 +109,17 @@
                             <td>@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
                             <td>@stock.GainPercent.ToString()</td>
                             <td>@stock.BuyTime.Date.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        <tr class="@($"collapse {GetDropdownClass(stock.Id)}")">
+                            <td colspan="5">
+                                <div class="dropdown-container">
+                                    <div class="form-group">
+                                        <label for="sellPrice">Sell Price</label>
+                                        <input type="number" class="form-control" @bind="sellPrice" placeholder="Enter Sell price">
+                                    </div>
+                                    <button class="btn btn-primary mt-3" @onclick="(() => SellStock(stock))">Sell Stock</button>
+                                </div>
+                            </td>
                         </tr>
                     }
                 }
@@ -112,6 +139,9 @@
 @code
 {
     private List<PurchasedStock> activeStocks = new List<PurchasedStock>();
+    private Dictionary<string, bool> stockDropdowns = new Dictionary<string, bool>();
+    private double sellPrice;
+    private string successMessage;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -131,5 +161,48 @@
         }
         activeStocks = await stockTradeService.GetAllActiveStocks(sessionId);
         StateHasChanged();
+    }
+
+    private void ToggleDropdown(string stockId)
+    {
+        if (stockDropdowns.ContainsKey(stockId))
+        {
+            stockDropdowns[stockId] = !stockDropdowns[stockId];
+        }
+        else
+        {
+            stockDropdowns[stockId] = true;
+        }
+        StateHasChanged();
+    }
+
+    private string GetDropdownClass(string stockId)
+    {
+        if (stockDropdowns.ContainsKey(stockId) && stockDropdowns[stockId])
+        {
+            return "show";
+        }
+        return "";
+    }
+
+    private async Task SellStock(PurchasedStock purchasedStock)
+    {
+        if (purchasedStock != null)
+        {
+            bool result = await this.stockTradeService.SellStock(purchasedStock, sellPrice);
+            if (result)
+            {
+                successMessage = "Stock Sold successfully!";
+            }
+            else
+            {
+                successMessage = "Failed to Sell stock. Please try again.";
+            }
+
+            sellPrice = 0;
+
+            // Notify the Blazor framework that the state has changed
+            StateHasChanged();
+        }
     }
 }

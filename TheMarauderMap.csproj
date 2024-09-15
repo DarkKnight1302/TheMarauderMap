@@ -8,16 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\images\Map2.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="wwwroot\images\Map.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="wwwroot\images\Map.jpeg" />
-    <Resource Include="wwwroot\images\Map2.jpg" />
   </ItemGroup>
 
   <ItemGroup>

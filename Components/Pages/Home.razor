@@ -19,19 +19,20 @@
     </div>
 
     <div class="content">
-        <button class="cool-button" @onclick="LaunchUpstoxLogin">Login with Upstox</button>
+        @if (!isLoggedIn)
+        {
+            <button class="cool-button" @onclick="LaunchUpstoxLogin">Login with Upstox</button>
+        }
     </div>
 </div>
 
 <style>
-    /* Background with Marauder's Map inspired theme */
     body {
         background: url("/images/Map.jpeg") right;
         background-size: cover;
         font-family: 'Cursive', sans-serif;
         color: #5e3b1b; /* Dark brown text for a parchment-like look */
         margin: 0;
-        height: 100vh;
     }
 
     .container {
@@ -55,7 +56,6 @@
         text-shadow: 2px 2px #d3a243;
     }
 
-    /* Magical Harry Potter-like Subtitle */
     .subtitle {
         font-size: 20px;
         font-family: 'Cinzel', serif; /* Harry Potter-esque font */
@@ -68,7 +68,6 @@
         text-transform: uppercase;
     }
 
-    /* Cool Login Button */
     .cool-button {
         font-size: 18px;
         padding: 15px 30px;
@@ -93,11 +92,36 @@
     .content {
         margin-top: auto;
         margin-right: 200px;
-        margin-bottom: 80px
+        margin-bottom: 80px;
     }
 </style>
 
 @code {
+    private bool isLoggedIn;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            bool sessionExists = await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey);
+            if (sessionExists)
+            {
+                // Change the body background using JavaScript
+                await jsRuntime.InvokeVoidAsync("eval", "document.body.style.background = 'url(/images/OpenMap1.jpg) right'");
+                // Hide the login button
+                isLoggedIn = true;
+            }
+            else
+            {
+                // Set default background if no session exists
+                await jsRuntime.InvokeVoidAsync("eval", "document.body.style.background = 'url(/images/Map.jpeg) right'");
+                // Show the login button
+                isLoggedIn = false;
+            }
+            this.StateHasChanged();
+        }
+    }
+
     async void LaunchUpstoxLogin()
     {
         bool sessionExists = await sessionStorage.ContainKeyAsync(GlobalConstants.SessionIdKey);

@@ -35,15 +35,15 @@
                 return;
             }
             UserInvestment userInvestment = await this.userInvestmentRepository.GetUserInvestment(session.UserId);
-            if (userInvestment == null)
+            if (userInvestment != null)
             {
-                return;
+                totalInvested = userInvestment.TotalInvestment;
+                totalReturns = userInvestment.TotalReturns;
+                totalProfitPercentage = userInvestment.GainPercent;
+                UpdatedAt = userInvestment.UpdatedAt;
+                this.StateHasChanged();
             }
-            totalInvested = userInvestment.TotalInvestment;
-            totalReturns = userInvestment.TotalReturns;
-            totalProfitPercentage = userInvestment.GainPercent;
-            UpdatedAt = userInvestment.UpdatedAt;
-            this.StateHasChanged();
+
             PurchasedStock stock = await this.stockTradeService.StockToSell(sessionId);
             if (stock != null)
             {

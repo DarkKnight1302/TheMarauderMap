@@ -106,7 +106,9 @@
                             <td>@stock.Name</td>
                             <td>@stock.TradingSymbol</td>
                             <td>@stock.LastPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
-                            <td class="stock-price">@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                            <td class="@($"stock-price {(stock.CurrentPrice < stock.LastPrice ? "text-danger" : "text-success")}")">
+                                @stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))
+                            </td>
                         </tr>
                         <tr class="@($"collapse {GetDropdownClass(stock.Id)}")">
                             <td colspan="5">

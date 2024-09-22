@@ -106,7 +106,9 @@
                             <td>@stock.Name</td>
                             <td>@stock.TradingSymbol</td>
                             <td>@stock.BuyPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
-                            <td>@stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))</td>
+                            <td class="@($"stock-price {(stock.CurrentPrice < stock.BuyPrice ? "text-danger" : "text-success")}")">
+                                @stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))
+                            </td>
                             <td>@stock.GainPercent.ToString()</td>
                             <td>@stock.BuyTime.Date.ToString("dd-MM-yyyy")</td>
                         </tr>

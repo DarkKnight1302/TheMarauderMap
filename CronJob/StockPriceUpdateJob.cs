@@ -93,7 +93,7 @@ namespace TheMarauderMap.CronJob
                     Price = priceDictionary[stock.Id]
                 };
                 stock.PriceHistory.Add(stockPrice);
-                if (stock.PriceHistory.Count > 5)
+                if (stock.PriceHistory.Count > 10)
                 {
                     stock.PriceHistory.RemoveAt(0);
                 }

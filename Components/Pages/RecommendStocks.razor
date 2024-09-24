@@ -94,6 +94,7 @@
                     <th>Trading Symbol</th>
                     <th>Last Price</th>
                     <th>Current Price</th>
+                    <th>Price Jump %</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,6 +110,7 @@
                             <td class="@($"stock-price {(stock.CurrentPrice < stock.LastPrice ? "text-danger" : "text-success")}")">
                                 @stock.CurrentPrice.ToString("C", new System.Globalization.CultureInfo("hi-IN"))
                             </td>
+                            <td>@stock.GainPercent.ToString()</td>
                         </tr>
                         <tr class="@($"collapse {GetDropdownClass(stock.Id)}")">
                             <td colspan="5">

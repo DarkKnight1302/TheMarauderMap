@@ -55,16 +55,16 @@ namespace TheMarauderMap.Services
         {
             int n1 = s1.PriceHistory.Count;
             int n2 = s2.PriceHistory.Count;
-            if (n1 < 3 || n2 < 3)
+            if (n1 < 4 || n2 < 4)
             {
                 return 0;
             }
-            double x1 = (s1.PriceHistory[n1 - 1].Price - s1.PriceHistory[n1 - 3].Price) / (s1.PriceHistory[n1 - 3].Price);
-            double x2 = (s2.PriceHistory[n2 - 1].Price - s2.PriceHistory[n2 - 3].Price) / (s2.PriceHistory[n2 - 3].Price);
-            s1.GainPercent = x1 * 100;
+            double x1 = (s1.PriceHistory[n1 - 1].Price - s1.PriceHistory[n1 - 4].Price) / (s1.PriceHistory[n1 - 4].Price);
+            double x2 = (s2.PriceHistory[n2 - 1].Price - s2.PriceHistory[n2 - 4].Price) / (s2.PriceHistory[n2 - 4].Price);
+            s1.GainPercent = Math.Round(x1 * 100, 1);
             s1.LastPrice = s1.PriceHistory[n1 - 1].Price;
             s2.LastPrice = s2.PriceHistory[n2 - 1].Price;
-            s2.GainPercent = x2 * 100;
+            s2.GainPercent = Math.Round(x2 * 100, 1);
             return x2.CompareTo(x1);
         }
     }

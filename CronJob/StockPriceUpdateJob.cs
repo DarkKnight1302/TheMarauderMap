@@ -82,7 +82,7 @@ namespace TheMarauderMap.CronJob
                     continue;
                 }
                 int n = stock.PriceHistory.Count;
-                if (n > 0 && stock.PriceHistory[n - 1].Date.Date == currentDate.Date)
+                if (n > 0 && (stock.PriceHistory[n - 1].Date.Date == currentDate.Date || stock.PriceHistory[n-1].Price.Equals(priceDictionary[stock.Id])))
                 {
                     continue;
                 }

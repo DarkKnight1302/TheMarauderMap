@@ -72,6 +72,17 @@
         background-color: #f8f9fa;
         border-radius: 8px;
     }
+
+    .btn-buy {
+        margin-top: 10px;
+    }
+
+    .btn-blacklist {
+        margin-top: 10px;
+        margin-left: 15px; /* Adds space between Buy Stock and BlackList buttons */
+        background-color: #dc3545; /* Red color */
+        color: white;
+    }
 </style>
 
 <h1 class="header-title">Recommended Stocks</h1>
@@ -123,7 +134,8 @@
                                         <label for="quantity">Quantity</label>
                                         <input type="number" class="form-control" @bind="quantity" placeholder="Enter quantity">
                                     </div>
-                                    <button class="btn btn-primary mt-3" @onclick="(() => BuyStock(stock))">Buy Stock</button>
+                                    <button class="btn btn-primary btn-buy" @onclick="(() => BuyStock(stock))">Buy Stock</button>
+                                    <button class="btn btn-blacklist" @onclick="(() => BlackList(stock))">BlackList Stock</button>
                                 </div>
                             </td>
                         </tr>
@@ -141,6 +153,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 @code {
     private List<RecommendedStock> recommendedStocks = new List<RecommendedStock>();
@@ -211,6 +224,14 @@
         quantity = 0;
 
         // Notify the Blazor framework that the state has changed
+        StateHasChanged();
+    }
+
+    private async Task BlackList(RecommendedStock recommendedStock)
+    {
+        Stock stock = recommendedStock;
+        string sessionId = await this.sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
+        await this.stockTradeService.BlackListStock(sessionId, stock);
         StateHasChanged();
     }
 }

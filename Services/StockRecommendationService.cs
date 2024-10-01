@@ -11,20 +11,41 @@ namespace TheMarauderMap.Services
         private readonly IStockRepository _stockRepository;
         private readonly IAccessTokenService _accessTokenService;
         private readonly IUpstoxApiClient _upstoxApiClient;
+        private readonly IUserBlackListRepository _userBlackListRepository;
+        private readonly ISessionRepository _sessionRepository;
 
-        public StockRecommendationService(IStockRepository stockRepository, IUpstoxApiClient upstoxApiClient, IAccessTokenService accessTokenService)
+        public StockRecommendationService(IStockRepository stockRepository,
+            IUpstoxApiClient upstoxApiClient,
+            IAccessTokenService accessTokenService,
+            IUserBlackListRepository userBlackListRepository,
+            ISessionRepository sessionRepository)
         {
             this._stockRepository = stockRepository;
             this._upstoxApiClient = upstoxApiClient;
             this._accessTokenService = accessTokenService;
+            this._userBlackListRepository = userBlackListRepository;
+            this._sessionRepository = sessionRepository;
         }
 
         public async Task<List<RecommendedStock>> RecommendStocks(string sessionId)
         {
             List<Stock> stocks = await this._stockRepository.GetAllStocks();
+            Session session = await this._sessionRepository.GetSession(sessionId);
+            if (session == null)
+            {
+                throw new UnauthorizedAccessException("Invalid Session Id");
+            }
+            string userId = session.UserId;
+
+            List<string> blackListed = await this._userBlackListRepository.GetBlackListedStocks(userId);
             List<RecommendedStock> recommendedStocks = new List<RecommendedStock>();
+            HashSet<string> blackListHashSet = blackListed.ToHashSet();
             foreach (Stock stock in stocks)
             {
+                if (blackListHashSet.Contains(stock.Id))
+                {
+                    continue;
+                }
                 RecommendedStock recommendedStock = new RecommendedStock();
                 recommendedStock.Id = stock.Id;
                 recommendedStock.Name = stock.Name;

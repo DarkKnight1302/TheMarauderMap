@@ -13,19 +13,33 @@ namespace TheMarauderMap.Services
         private readonly ILogger<StockTradeService> logger;
         private readonly IUpstoxApiClient upstoxApiClient;
         private readonly IUserInvestmentsRepository userInvestmentsRepository;
+        private readonly IUserBlackListRepository userBlackListRepository;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public StockTradeService(IActiveStockRepository activeStockRepository,
             ISessionRepository sessionRepository,
             ILogger<StockTradeService> logger,
             IUpstoxApiClient upstoxApiClient,
-            IUserInvestmentsRepository userInvestmentsRepository)
+            IUserInvestmentsRepository userInvestmentsRepository,
+            IUserBlackListRepository userBlackListRepository)
         {
             this.activeStockRepository = activeStockRepository;
             this.sessionRepository = sessionRepository;
             this.logger = logger;
             this.upstoxApiClient = upstoxApiClient;
             this.userInvestmentsRepository = userInvestmentsRepository;
+            this.userBlackListRepository = userBlackListRepository;
+        }
+
+        public async Task BlackListStock(string sessionId, Stock stock)
+        {
+            Session userSession = await this.sessionRepository.GetSession(sessionId);
+            if (userSession == null)
+            {
+                this.logger.LogError("Session Not found");
+                return;
+            }
+            await this.userBlackListRepository.AddStockToBlackList(userSession.UserId, stock.Id);
         }
 
         public async Task<List<PurchasedStock>> GetAllActiveStocks(string sessionId)

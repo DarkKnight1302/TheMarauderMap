@@ -11,6 +11,7 @@
 @inject ISessionStorageService sessionStorage;
 @inject NavigationManager navigationManager;
 @inject IStockTradeService stockTradeService;
+@inject NavigationManager Navigation
 
 <style>
     body {
@@ -233,5 +234,6 @@
         string sessionId = await this.sessionStorage.GetItemAsync<string>(GlobalConstants.SessionIdKey);
         await this.stockTradeService.BlackListStock(sessionId, stock);
         StateHasChanged();
+        Navigation.NavigateTo("/RecommendStocks", true);
     }
 }

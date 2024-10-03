@@ -105,6 +105,27 @@ namespace TheMarauderMap.Repositories
             });
         }
 
+        public async Task UpdateActiveStocks(List<ActiveStock> activeStocks)
+        {
+            await this.retryStrategy.ExecuteAsync(async () =>
+            {
+                var container = FetchContainer();
+                foreach (var activeStock in activeStocks)
+                {
+                    await container.UpsertItemAsync<ActiveStock>(activeStock, new PartitionKey(activeStock.StockId));
+                }
+            });
+        }
+
+        public async Task UpdateActiveStock(ActiveStock activeStock)
+        {
+            await this.retryStrategy.ExecuteAsync(async () =>
+            {
+                var container = FetchContainer();
+                await container.UpsertItemAsync<ActiveStock>(activeStock, new PartitionKey(activeStock.StockId));
+            });
+        }
+
         private Microsoft.Azure.Cosmos.Container FetchContainer()
         {
             return this.cosmosDbService.GetContainer("ActiveStocks");

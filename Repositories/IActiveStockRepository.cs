@@ -13,5 +13,9 @@ namespace TheMarauderMap.Repositories
         public Task<List<ActiveStock>> GetAllInActiveStocksAsync(string userId);
 
         public Task<bool> ActiveStockExists(string id, string stockId);
+
+        public Task UpdateActiveStocks(List<ActiveStock> activeStocks);
+
+        public Task UpdateActiveStock(ActiveStock activeStock);
     }
 }

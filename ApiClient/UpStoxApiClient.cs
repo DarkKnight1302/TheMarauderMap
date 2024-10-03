@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using TheMarauderMap.Responses;
+using TheMarauderMap.Entities;
+using System.Text;
 
 namespace TheMarauderMap.ApiClient
 {
@@ -63,6 +65,38 @@ namespace TheMarauderMap.ApiClient
             }
         }
 
+        public async Task<OrderDetailResponse> GetSellOrderDetails(string orderId, string accessToken)
+        {
+            string apiUrl = "https://api.upstox.com/v2/order/details";
+            using (HttpClient client = new HttpClient())
+            {
+                // Set the headers
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                // Build the query string with the order_id parameter if it's provided
+                string urlWithQuery = string.IsNullOrEmpty(orderId) ? apiUrl : $"{apiUrl}?order_id={orderId}";
+
+                // Make the GET request
+                HttpResponseMessage response = await client.GetAsync(urlWithQuery);
+
+                // Ensure the response was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read the response content as a string
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    // Deserialize the response into an OrderDetails object
+                    var orderDetails = JsonConvert.DeserializeObject<OrderDetailResponse>(jsonResponse);
+                    return orderDetails;
+                }
+                else
+                {
+                    Console.WriteLine($"Request failed with status code: {response.StatusCode}");
+                }
+            }
+            return null;
+        }
+
         public async Task<Dictionary<string, double>> GetStockPrice(List<string> stockIds, string accessToken)
         {
             // Initialize HttpClient
@@ -95,6 +129,52 @@ namespace TheMarauderMap.ApiClient
                 }
                 return stockPriceDict;
             }
+        }
+
+        public async Task<string> SellStock(ActiveStock stock, double price, string accessToken)
+        {
+            this.logger.LogInformation($"Selling stock {stock.StockId} : {stock.Name} for price {price}");
+            using (var client = new HttpClient())
+            {
+                SellOrder order = new SellOrder() 
+                {
+                     Quantity = stock.Quantity,
+                     Product = "D",
+                     Validity = "DAY",
+                     Price = price,
+                     InstrumentToken = stock.StockId,
+                     OrderType = "LIMIT",
+                     TransactionType = "SELL"
+                };
+
+                var jsonData = JsonConvert.SerializeObject(order);
+
+                // Create the HttpContent with JSON data
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Add necessary headers
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("Api-Version", "2.0");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Send the POST request
+                HttpResponseMessage response = await client.PostAsync("https://api-hft.upstox.com/v2/order/place", content);
+
+                string result = await response.Content.ReadAsStringAsync();
+                // Check the response
+                if (response.IsSuccessStatusCode)
+                {
+                    SellOrderDetails sellOrderDetails = JsonConvert.DeserializeObject<SellOrderDetails>(result);
+                    this.logger.LogInformation($"Sell Order Id {sellOrderDetails?.Data?.OrderId ?? string.Empty}");
+                    return sellOrderDetails?.Data?.OrderId ?? string.Empty;
+                }
+                else
+                {
+                    logger.LogError("Error: " + response.StatusCode + $"{result}");
+                }
+            }
+            return string.Empty;
         }
     }
 }

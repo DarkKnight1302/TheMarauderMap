@@ -24,6 +24,12 @@ namespace TheMarauderMap.Entities
 
         public double SellPrice { get; set; }
 
+        public string SellOrderId { get; set; }
+
+        public double HighestPrice { get; set; } = 0D;
+
+        public double CurrentPrice { get; set; } = 0D;
+
         public int Quantity { get; set; }
 
         public DateTimeOffset BuyTime { get; set; }

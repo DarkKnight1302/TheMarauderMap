@@ -41,6 +41,15 @@ builder.Services.AddQuartz(q =>
                         .ForJob(jobKey)
                         .WithIdentity("StockPriceUpdate-trigger")
                         .WithCronSchedule("0 30 8 * * ?"));
+
+    var sellJobKey = new JobKey("StockSellJob");
+
+    q.AddJob<StockSellJob>(opts => opts.WithIdentity(sellJobKey));
+
+    q.AddTrigger(opts => opts
+                        .ForJob(sellJobKey)
+                        .WithIdentity("StockSellJob-trigger")
+                        .WithCronSchedule("0 0 * * * ?"));
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

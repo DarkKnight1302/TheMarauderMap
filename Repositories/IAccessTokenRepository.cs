@@ -1,4 +1,6 @@
-﻿namespace TheMarauderMap.Repositories
+﻿using TheMarauderMap.Entities;
+
+namespace TheMarauderMap.Repositories
 {
     public interface IAccessTokenRepository
     {
@@ -7,5 +9,7 @@
         public Task<string> GetAccessToken(string userId);
 
         public Task<string> GetActiveAccessToken();
+
+        public Task<List<AccessToken>> GetAllActiveAccessToken();
     }
 }

@@ -53,5 +53,10 @@ namespace TheMarauderMap.Services
         {
             return await this._accessTokenRepository.GetActiveAccessToken();
         }
+
+        public async Task<List<AccessToken>> GetAllActiveAccessToken()
+        {
+            return await this._accessTokenRepository.GetAllActiveAccessToken();
+        }
     }
 }

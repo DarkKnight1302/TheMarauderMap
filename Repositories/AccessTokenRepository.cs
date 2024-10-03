@@ -54,6 +54,28 @@ namespace TheMarauderMap.Repositories
             return null; // No matching token found
         }
 
+        public async Task<List<AccessToken>> GetAllActiveAccessToken()
+        {
+            List<AccessToken> accessTokenList = new List<AccessToken>();
+            var container = FetchContainer();
+            var currentTime = DateTimeOffset.UtcNow.ToIndiaTime();
+            var sixHoursAgo = currentTime.AddHours(-6);
+
+            var query = new QueryDefinition(
+                "SELECT * FROM c WHERE c.RefreshTime >= @sixHoursAgo")
+                .WithParameter("@sixHoursAgo", sixHoursAgo);
+
+            var queryResultSetIterator = container.GetItemQueryIterator<AccessToken>(query);
+
+            while (queryResultSetIterator.HasMoreResults)
+            {
+                var response = await queryResultSetIterator.ReadNextAsync();
+                accessTokenList.AddRange(response);
+            }
+
+            return accessTokenList; // No matching token found
+        }
+
         public async Task UpdateAccessToken(string userId, string accessToken)
         {
             var container = FetchContainer();

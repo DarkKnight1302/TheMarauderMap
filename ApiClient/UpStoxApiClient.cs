@@ -143,7 +143,7 @@ namespace TheMarauderMap.ApiClient
                      Validity = "DAY",
                      Price = price,
                      InstrumentToken = stock.StockId,
-                     OrderType = "LIMIT",
+                     OrderType = "MARKET",
                      TransactionType = "SELL"
                 };
 

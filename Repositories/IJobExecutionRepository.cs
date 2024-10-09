@@ -5,7 +5,7 @@ namespace TheMarauderMap.Repositories
     {
         public Task StartJobExecution(string jobId, string JobName);
 
-        public Task JobSucceeded(string jobId);
+        public Task JobSucceeded(string jobId, string execution = null);
 
         public Task JobFailed(string jobId, string reason);
 

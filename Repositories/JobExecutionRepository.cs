@@ -52,12 +52,13 @@ namespace TheMarauderMap.Repositories
             this.logger.LogInformation($"Failed job execution {JsonUtil.SerializeObject(jobExecution)}");
         }
 
-        public async Task JobSucceeded(string jobId)
+        public async Task JobSucceeded(string jobId, string execution = null)
         {
             var container = this.cosmosDbService.GetContainer("JobExecution");
             JobExecution jobExecution = await GetJobExecutionAsync(jobId);
             jobExecution.Status = Enums.JobStatus.Succeeded;
             jobExecution.Ended = DateTimeOffset.UtcNow.ToIndiaTime();
+            jobExecution.ExecutionFlow = execution;
             await this.retryStrategy.ExecuteAsync(() => container.UpsertItemAsync(jobExecution, new PartitionKey(jobId)));
             this.logger.LogInformation($"Succeeded job execution {JsonUtil.SerializeObject(jobExecution)}");
         }

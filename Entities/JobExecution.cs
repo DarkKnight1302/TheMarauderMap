@@ -23,5 +23,7 @@ namespace TheMarauderMap.Entities
         public JobStatus Status { get; set; }
 
         public string FailureReason { get; set; }
+
+        public string ExecutionFlow {  get; set; }
     }
 }

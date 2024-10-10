@@ -19,7 +19,6 @@ namespace TheMarauderMap.CronJob
         private readonly IAccessTokenService _accessTokenService;
         private readonly IActiveStockRepository activeStockRepository;
         private readonly IUpstoxApiClient upstoxApiClient;
-        private readonly IMemoryCache memoryCache;
         private readonly IStockTradeService stockTradeService;
         private readonly IJobExecutionRepository jobExecutionRepository;
 
@@ -27,7 +26,6 @@ namespace TheMarauderMap.CronJob
             IAccessTokenService accessTokenService,
             IActiveStockRepository activeStockRepository,
             IUpstoxApiClient upstoxApiClient,
-            IMemoryCache memoryCache,
             IStockTradeService stockTradeService,
             IJobExecutionRepository jobExecutionRepository)
         {
@@ -35,7 +33,6 @@ namespace TheMarauderMap.CronJob
             this._accessTokenService = accessTokenService;
             this.activeStockRepository = activeStockRepository;
             this.upstoxApiClient = upstoxApiClient;
-            this.memoryCache = memoryCache;
             this.stockTradeService = stockTradeService;
             this.jobExecutionRepository = jobExecutionRepository;
         }
@@ -94,7 +91,6 @@ namespace TheMarauderMap.CronJob
                             sb.Append($"Stock sell order id {orderId}");
                             await this.activeStockRepository.UpdateActiveStock(activeStock);
                             sb.Append($"Updating stock in database");
-                            this.memoryCache.Set<bool>("SoldStock", true, DateTimeOffset.Now.AddHours(12));
                             this._logger.LogInformation($"Sell Order placed with Order Id {orderId} for stock {activeStock.Name} at price {activeStock.CurrentPrice}");
                             return sb.ToString();
                         }
@@ -117,12 +113,6 @@ namespace TheMarauderMap.CronJob
         private bool IsReadyToSell(ActiveStock stock, StringBuilder sb)
         {
             sb.AppendLine($"Checking ready to sell for stock {stock.Name}");
-            if (this.memoryCache.TryGetValue<bool>("SoldStock", out bool val) && val == true)
-            {
-                this._logger.LogInformation($"Stock already sold today");
-                sb.AppendLine($"Stock already sold today");
-                return false;
-            }
             DateTimeOffset currentDate = DateTimeOffset.UtcNow.ToIndiaTime();
             sb.AppendLine($"Current date for selling stock {currentDate}");
             if (string.IsNullOrEmpty(stock.SellOrderId))

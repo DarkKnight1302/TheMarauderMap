@@ -122,9 +122,9 @@ namespace TheMarauderMap.CronJob
                 double gainPercent = (100d * (stock.CurrentPrice - stock.BuyPrice)) / stock.BuyPrice;
                 sb.AppendLine($"Gain Percent of stock  {gainPercent}");
                 sb.AppendLine($"Stock details : Buy time  - {stock.BuyTime} : Current price - {stock.CurrentPrice} : Buy price - {stock.BuyPrice} : Highest price {stock.HighestPrice}");
-                if ((currentDate - stock.BuyTime).Days > 20 && stock.CurrentPrice > stock.BuyPrice)
+                if ((currentDate - stock.BuyTime).Days > 15 && stock.CurrentPrice > stock.BuyPrice)
                 {
-                    sb.AppendLine($"Stock exceed 20 days and higher");
+                    sb.AppendLine($"Stock exceed 15 days and higher");
                     return true;
                 }
                 if (gainPercent > 15 && stock.CurrentPrice < stock.HighestPrice)

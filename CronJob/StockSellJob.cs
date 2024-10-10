@@ -61,6 +61,7 @@ namespace TheMarauderMap.CronJob
                     return;
                 }
                 string execution = await SellTask(accessTokenList);
+                this._logger.LogInformation(execution);
                 await this.jobExecutionRepository.JobSucceeded(jobId, execution);
             }
             catch (Exception ex)

@@ -73,6 +73,34 @@ namespace TheMarauderMap.Services
             return purchasedStocks;
         }
 
+        public async Task<List<PurchasedStock>> GetAllInActiveStocks(string sessionId)
+        {
+            Session userSession = await this.sessionRepository.GetSession(sessionId);
+            if (userSession == null)
+            {
+                this.logger.LogError("Session Not found");
+                return null;
+            }
+            List<ActiveStock> inActiveStocks = await this.activeStockRepository.GetAllInActiveStocksAsync(userSession.UserId);
+            if (inActiveStocks == null || inActiveStocks.Count == 0)
+            {
+                return null;
+            }
+            List<PurchasedStock> purchasedStocks = new List<PurchasedStock>();
+            foreach (var inActiveStock in inActiveStocks)
+            {
+                PurchasedStock purchased = new PurchasedStock(inActiveStock);
+                purchased.GainPercent = Math.Round((100 * (purchased.SellPrice - purchased.BuyPrice) / purchased.BuyPrice), 1);
+                purchased.GainAmount = Math.Round((purchased.SellPrice * purchased.Quantity) - (purchased.BuyPrice * purchased.Quantity), 1);
+                purchasedStocks.Add(purchased);
+            }
+            purchasedStocks.Sort((PurchasedStock a, PurchasedStock b) =>
+            {
+                return b.SellTime.CompareTo(a.SellTime);
+            });
+            return purchasedStocks;
+        }
+
         public async Task<bool> PurchaseStock(string sessionId, Stock stock, int quantity, double price)
         {
             try

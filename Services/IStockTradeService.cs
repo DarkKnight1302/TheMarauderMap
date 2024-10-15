@@ -13,6 +13,8 @@ namespace TheMarauderMap.Services
 
         public Task<List<PurchasedStock>> GetAllActiveStocks(string sessionId);
 
+        public Task<List<PurchasedStock>> GetAllInActiveStocks(string sessionId);
+
         public Task BlackListStock(string sessionId, Stock stock);
     }
 }

@@ -18,10 +18,13 @@ namespace TheMarauderMap.Responses
             this.IsActive = activeStock.IsActive;
             this.Quantity = activeStock.Quantity;
             this.TradingSymbol = activeStock.TradingSymbol;
+            this.HighestPrice = activeStock.HighestPrice;
         }
 
         public double CurrentPrice { get; set; }
 
         public double GainPercent { get; set; }
+
+        public double GainAmount { get; set; }
     }
 }

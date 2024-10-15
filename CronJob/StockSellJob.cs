@@ -122,18 +122,29 @@ namespace TheMarauderMap.CronJob
                 double gainPercent = (100d * (stock.CurrentPrice - stock.BuyPrice)) / stock.BuyPrice;
                 sb.AppendLine($"Gain Percent of stock  {gainPercent}");
                 sb.AppendLine($"Stock details : Buy time  - {stock.BuyTime} : Current price - {stock.CurrentPrice} : Buy price - {stock.BuyPrice} : Highest price {stock.HighestPrice}");
-                if ((currentDate - stock.BuyTime).Days > 15 && stock.CurrentPrice > stock.BuyPrice)
+                if ((currentDate - stock.BuyTime).Days > 20 && stock.CurrentPrice > stock.BuyPrice)
                 {
-                    sb.AppendLine($"Stock exceed 15 days and higher");
+                    sb.AppendLine($"Stock exceed 20 days and higher");
                     return true;
                 }
                 if (gainPercent > 15 && stock.CurrentPrice < stock.HighestPrice)
                 {
-                    sb.AppendLine($"stock gain greater than 15 percent and current price more than highest price");
+                    sb.AppendLine($"stock gain greater than 15 percent and current price more than buy price");
+                    return true;
+                }
+                if (gainPercent >= 8 && GetDownPercent(stock.CurrentPrice, stock.HighestPrice, stock.BuyPrice) >= 1d)
+                {
+                    sb.AppendLine($"stock gain greater than 8 percent and current price less than highest price");
                     return true;
                 }
             }
             return false;
+        }
+
+        private double GetDownPercent(double currentPrice, double highestPrice, double basePrice)
+        {
+            double percent = (100d * (highestPrice - currentPrice)) / basePrice;
+            return percent;
         }
 
         private async Task<List<ActiveStock>> FetchStockAndUpdateCurrentPrice(AccessToken accessToken)

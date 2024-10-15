@@ -42,7 +42,7 @@ namespace TheMarauderMap.Services
             HashSet<string> blackListHashSet = blackListed.ToHashSet();
             foreach (Stock stock in stocks)
             {
-                if (blackListHashSet.Contains(stock.Id))
+                if (blackListHashSet.Contains(stock.Id) || FilterOutStock(stock))
                 {
                     continue;
                 }
@@ -70,6 +70,23 @@ namespace TheMarauderMap.Services
                 }
             }
             return recommendedStocks;
+        }
+
+        private bool FilterOutStock(Stock stock)
+        {
+            if (stock == null || stock.PriceHistory.Count < 3)
+            {
+                return true;
+            }
+            int ct = stock.PriceHistory.Count;
+            double c = stock.PriceHistory[ct - 1].Price;
+            double b = stock.PriceHistory[ct - 2].Price;
+            double a = stock.PriceHistory[ct - 3].Price;
+            if (a < b && b < c)
+            {
+                return false;
+            }
+            return true;
         }
 
         public int Compare(RecommendedStock s1, RecommendedStock s2)

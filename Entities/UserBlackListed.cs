@@ -8,8 +8,9 @@ namespace TheMarauderMap.Entities
         public string Id { get; set; }
 
         [JsonProperty(PropertyName = "uid")]
-        public string UserId { get; set; }
+        public string UniqueId { get; set; }
 
-        public List<string> BlackListedStocks { get; set; } = new List<string>();
+        public string UserId { get; set; }
+        public string StockId { get; set; }
     }
 }

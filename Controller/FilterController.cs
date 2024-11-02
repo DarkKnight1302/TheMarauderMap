@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using TheMarauderMap.Entities;
 using TheMarauderMap.Repositories;
 using Instrument = TheMarauderMap.Responses.Instrument;
@@ -24,14 +25,18 @@ namespace TheMarauderMap.Controller
         public async Task<IActionResult> FilterStocks()
         {
             var filteredList = new List<Instrument>();
-            using (StreamReader r = new StreamReader("StockName.json"))
+            using (StreamReader r = new StreamReader("complete.json"))
             {
                 string json = r.ReadToEnd();
                 List<Instrument> items = JsonConvert.DeserializeObject<List<Instrument>>(json);
-                filteredList = items.Where(x => (x.Segment.Equals("NSE_EQ") && x.InstrumentType.Equals("EQ"))).ToList();
+                filteredList = items.Where(x => (x.Segment.Equals("NSE_EQ") || x.Segment.Equals("BSE_EQ"))).ToList();
+                filteredList = filteredList.Where(x => !x.Name.Contains("%")).ToList();
+                filteredList = filteredList.Where(x => !x.Name.Any(Char.IsDigit)).ToList();
             }
-            List<Stock> StocksToAdd = new List<Stock>();
-            foreach (Instrument item in filteredList)
+            ConcurrentBag<Stock> StocksToAdd = new ConcurrentBag<Stock>();
+            ParallelOptions parallelOptions = new ParallelOptions();
+            parallelOptions.MaxDegreeOfParallelism = 2;
+            Parallel.ForEach(filteredList, parallelOptions, async item =>
             {
                 bool exists = await this.stockRepository.StockExists(item.InstrumentKey);
                 if (!exists)
@@ -44,9 +49,10 @@ namespace TheMarauderMap.Controller
                         TradingSymbol = item.TradingSymbol
                     };
                     StocksToAdd.Add(stock);
+                    this.logger.LogInformation($"Stock added {stock.Id} : {stock.Name}");
                 }
-            }
-            await this.stockRepository.UpdateStockPrice(StocksToAdd);
+            });
+            await this.stockRepository.UpdateStockPrice(StocksToAdd.ToList());
             string jsonString = JsonConvert.SerializeObject(filteredList, Formatting.Indented);
 
             // Write the JSON string to a file using StreamWriter

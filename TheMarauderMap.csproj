@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.40.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\bootstrap\" />
   </ItemGroup>
 

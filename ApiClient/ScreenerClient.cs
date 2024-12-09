@@ -13,11 +13,12 @@ namespace TheMarauderMap.ApiClient
             this.logger = logger;
         }
 
-        public StockFundamentals GetStockFundamentals(string stockId)
+        public StockFundamentalsResp GetStockFundamentals(string stockId)
         {
-            StockFundamentals stockFundamentals = new StockFundamentals();
+            StockFundamentalsResp stockFundamentals = new StockFundamentalsResp();
             try
             {
+                this.logger.LogInformation($"Fetching Stock fundamentals for {stockId}");
                 var Webget = new HtmlWeb();
                 var htmlDocument = Webget.Load($"https://www.screener.in/company/{stockId}/");
                 if (!HtmlParser.IsValidStockDoc(htmlDocument))
@@ -29,6 +30,10 @@ namespace TheMarauderMap.ApiClient
                 List<int> yearlyProfit = HtmlParser.ExtractSectionForProfit(htmlDocument, "profit-loss");
                 List<int> quarterlyProfit = HtmlParser.ExtractSectionForProfit(htmlDocument, "quarters");
 
+                if (yearlyRevenue == null || yearlyRevenue.Count == 0 || yearlyProfit == null || yearlyProfit.Count == 0)
+                {
+                    return null;
+                }
                 // Discard last values, as they represent TTM
                 yearlyRevenue.RemoveAt(yearlyRevenue.Count - 1);
                 yearlyProfit.RemoveAt(yearlyProfit.Count - 1);
@@ -41,7 +46,7 @@ namespace TheMarauderMap.ApiClient
             } catch (Exception e)
             {
                 this.logger.LogError($"Exception in ScreenerClient {e.Message} \n {e.StackTrace}");
-                return stockFundamentals;
+                throw;
             }
         }
     }

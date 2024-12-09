@@ -28,6 +28,7 @@ builder.Services.AddSingleton<IStockTradeService, StockTradeService>();
 builder.Services.AddSingleton<IUserInvestmentsRepository, UserInvestmentRepository>();
 builder.Services.AddSingleton<IUserBlackListRepository, UserBlackListedRepository>();
 builder.Services.AddSingleton<IScreenerClient, ScreenerClient>();
+builder.Services.AddSingleton<IStockFundamentalsRepository, StockFundamentalsRepository>();
 builder.Services.AddSingleton<IRetryStrategy>(sp => new RetryStrategy(maxRetries: 3, delay: TimeSpan.FromSeconds(1)));
 builder.Services.AddMemoryCache();
 builder.Services.AddBlazoredSessionStorage();

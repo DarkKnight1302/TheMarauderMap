@@ -4,6 +4,6 @@ namespace TheMarauderMap.ApiClient
 {
     public interface IScreenerClient
     {
-        public StockFundamentals GetStockFundamentals(string stockId);
+        public StockFundamentalsResp GetStockFundamentals(string stockId);
     }
 }

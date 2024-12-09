@@ -1,6 +1,6 @@
 ﻿namespace TheMarauderMap.Models
 {
-    public class StockFundamentals
+    public class StockFundamentalsResp
     {
         public List<int> YearlyRevenue { get; set; }
 

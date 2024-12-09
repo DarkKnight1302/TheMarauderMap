@@ -1,0 +1,43 @@
+[
+  {
+    "ContainingType": "TheMarauderMap.Controller.FilterController",
+    "Method": "FeedFundamentals",
+    "RelativePath": "api/Filter/stockFundamentals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TheMarauderMap.Controller.FilterController",
+    "Method": "FilterStocks",
+    "RelativePath": "api/Filter/stocks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TheMarauderMap.Controller.OAuthController",
+    "Method": "Callback",
+    "RelativePath": "api/OAuth/callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "state",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

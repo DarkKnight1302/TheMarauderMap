@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TheMarauderMap.bundle.scp.css",
+      "PackagePath": "staticwebassets\\TheMarauderMap.bundle.scp.css"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\Map.jpeg",
+      "PackagePath": "staticwebassets\\images\\Map.jpeg"
+    },
+    {
+      "Id": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\OpenMap1.jpg",
+      "PackagePath": "staticwebassets\\images\\OpenMap1.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TheMarauderMap.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.TheMarauderMap.props",
+      "PackagePath": "build\\TheMarauderMap.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.TheMarauderMap.props",
+      "PackagePath": "buildMultiTargeting\\TheMarauderMap.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.TheMarauderMap.props",
+      "PackagePath": "buildTransitive\\TheMarauderMap.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

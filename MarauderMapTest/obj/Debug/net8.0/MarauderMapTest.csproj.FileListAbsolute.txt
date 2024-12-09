@@ -155,3 +155,4 @@ E:\Projects\TheMarauderMapSolution\MarauderMapTest\obj\Debug\net8.0\refint\Marau
 E:\Projects\TheMarauderMapSolution\MarauderMapTest\obj\Debug\net8.0\MarauderMapTest.pdb
 E:\Projects\TheMarauderMapSolution\MarauderMapTest\obj\Debug\net8.0\MarauderMapTest.genruntimeconfig.cache
 E:\Projects\TheMarauderMapSolution\MarauderMapTest\obj\Debug\net8.0\ref\MarauderMapTest.dll
+E:\Projects\TheMarauderMapSolution\MarauderMapTest\obj\Debug\net8.0\MarauderMapTest.sourcelink.json

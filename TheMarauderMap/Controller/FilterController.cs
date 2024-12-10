@@ -81,12 +81,18 @@ namespace TheMarauderMap.Controller
         {
             var allStocks = await this.stockRepository.GetAllStocks();
             int timePeriod = 1000;
+            List<string> stockIds = allStocks.Select(x => x.TradingSymbol).ToList();
+            var stockFundamentalMap = await this.stockFundamentalsRepository.GetStockFundamentals(stockIds);
             foreach(Stock stock in allStocks)
             {
                 try
                 {
+                    if (stockFundamentalMap.ContainsKey(stock.TradingSymbol))
+                    {
+                        continue;
+                    }
                     await Task.Delay(timePeriod);
-                    StockFundamentalsResp stockFundamentals = this.screenerClient.GetStockFundamentals(stock.TradingSymbol);
+                    StockFundamentalsResp stockFundamentals = await this.screenerClient.GetStockFundamentals(stock.TradingSymbol, stock.Name);
                     if (stockFundamentals == null)
                     {
                         this.logger.LogError($"Stock fundamentals not found for {stock.Name} : {stock.TradingSymbol}");

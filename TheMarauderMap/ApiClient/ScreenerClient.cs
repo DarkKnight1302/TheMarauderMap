@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using TheMarauderMap.Models;
+using TheMarauderMap.Responses;
 using TheMarauderMap.Utilities;
 
 namespace TheMarauderMap.ApiClient
@@ -7,20 +8,44 @@ namespace TheMarauderMap.ApiClient
     public class ScreenerClient : IScreenerClient
     {
         private readonly ILogger<ScreenerClient> logger;
+        private readonly HttpClient httpClient;
 
         public ScreenerClient(ILogger<ScreenerClient> logger)
         {
             this.logger = logger;
+            this.httpClient = new HttpClient();
         }
 
-        public StockFundamentalsResp GetStockFundamentals(string stockId)
+        public async Task<string> GetCompanyUrl(string stockName)
+        {
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"https://www.screener.in/api/company/search/?q={stockName}&v=3&fts=1");
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                string responseBody = await httpResponse.Content.ReadAsStringAsync();
+                List<ScreenerSearchResponse> searchResponses = JsonUtil.DeSerialize<List<ScreenerSearchResponse>>(responseBody);
+                if (searchResponses != null && searchResponses.Count > 1)
+                {
+                    return searchResponses[0].Url;
+                }
+            }
+            return string.Empty;
+        }
+
+        public async Task<StockFundamentalsResp> GetStockFundamentals(string stockId, string stockName)
         {
             StockFundamentalsResp stockFundamentals = new StockFundamentalsResp();
             try
             {
-                this.logger.LogInformation($"Fetching Stock fundamentals for {stockId}");
+                this.logger.LogInformation($"Fetching Stock fundamentals for {stockId} : {stockName}");
+                string companyUrl = await this.GetCompanyUrl(stockId);
+                this.logger.LogInformation($"Fetching Stock fundamentals for Company {companyUrl}");
+                if (string.IsNullOrEmpty(companyUrl))
+                {
+                    this.logger.LogError($"Company name not found for stock {stockName}");
+                    return null;
+                }
                 var Webget = new HtmlWeb();
-                var htmlDocument = Webget.Load($"https://www.screener.in/company/{stockId}/");
+                var htmlDocument = Webget.Load($"https://www.screener.in/{companyUrl}");
                 if (!HtmlParser.IsValidStockDoc(htmlDocument))
                 {
                     return null;
@@ -48,6 +73,15 @@ namespace TheMarauderMap.ApiClient
                 this.logger.LogError($"Exception in ScreenerClient {e.Message} \n {e.StackTrace}");
                 throw;
             }
+        }
+
+        private string FixStockName(string stockName)
+        {
+            if (stockName.EndsWith('.'))
+            {
+                return stockName.Substring(0, stockName.Length - 1);
+            }
+            return stockName;
         }
     }
 }

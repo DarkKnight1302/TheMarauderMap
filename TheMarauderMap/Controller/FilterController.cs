@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
+using System.Linq;
 using TheMarauderMap.ApiClient;
 using TheMarauderMap.Entities;
 using TheMarauderMap.Models;
@@ -105,6 +106,49 @@ namespace TheMarauderMap.Controller
                 {
                     this.logger.LogError("Found exception increasing time period");
                     timePeriod += 200;
+                }
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("removeDuplicates")]
+        public async Task<IActionResult> RemoveDuplicates()
+        {
+            var allStocks = await this.stockRepository.GetAllStocks();
+            Dictionary<string, List<Stock>> stockDictionary = new Dictionary<string, List<Stock>>();
+            foreach (Stock st in allStocks)
+            {
+                if (stockDictionary.ContainsKey(st.TradingSymbol))
+                {
+                    stockDictionary[st.TradingSymbol].Add(st);
+                } else
+                {
+                    stockDictionary[st.TradingSymbol] = [st];
+                }
+            }
+            foreach(var kv in stockDictionary)
+            {
+                if (kv.Value.Count > 1)
+                {
+                    logger.LogError($"Duplicate stock found for {kv.Key}");
+                    bool deleted = false;
+                    foreach(Stock duplicate in kv.Value)
+                    {
+                        if (duplicate.Id.StartsWith("BSE"))
+                        {
+                            logger.LogError($"Delete duplicate stock {duplicate.Id}");
+                            await this.stockRepository.DeleteStock(duplicate.Id);
+                            deleted = true;
+                            break;
+                        }
+                    }
+                    if (!deleted)
+                    {
+                        Stock last = kv.Value[kv.Value.Count - 1];
+                        logger.LogError($"Delete duplicate stock {last.Id}");
+                        await this.stockRepository.DeleteStock(last.Id);
+                    }
                 }
             }
             return Ok();

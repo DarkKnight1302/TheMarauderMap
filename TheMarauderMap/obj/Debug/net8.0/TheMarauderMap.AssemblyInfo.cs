@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TheMarauderMap")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37fe1281c63410046a999401c769658690450918")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9767af7c7d2e1084dc2de79fbc00cdc6aeff77a")]
 [assembly: System.Reflection.AssemblyProductAttribute("TheMarauderMap")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TheMarauderMap")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "TheMarauderMap.Controller.FilterController",
+    "Method": "RemoveDuplicates",
+    "RelativePath": "api/Filter/removeDuplicates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TheMarauderMap.Controller.FilterController",
     "Method": "FeedFundamentals",
     "RelativePath": "api/Filter/stockFundamentals",
     "HttpMethod": "GET",

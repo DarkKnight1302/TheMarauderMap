@@ -37,12 +37,16 @@ namespace TheMarauderMap.ApiClient
             try
             {
                 this.logger.LogInformation($"Fetching Stock fundamentals for {stockId} : {stockName}");
-                string companyUrl = await this.GetCompanyUrl(stockId);
+                string companyUrl = await this.GetCompanyUrl(FixStockNameForSplit(stockId));
                 this.logger.LogInformation($"Fetching Stock fundamentals for Company {companyUrl}");
                 if (string.IsNullOrEmpty(companyUrl))
                 {
-                    this.logger.LogError($"Company name not found for stock {stockName}");
-                    return null;
+                    companyUrl = await this.GetCompanyUrl(FixStockNameForDot(stockName));
+                    if (string.IsNullOrEmpty(companyUrl))
+                    {
+                        this.logger.LogError($"Company name not found for stock {stockName}");
+                        return null;
+                    }
                 }
                 var Webget = new HtmlWeb();
                 var htmlDocument = Webget.Load($"https://www.screener.in/{companyUrl}");
@@ -75,7 +79,17 @@ namespace TheMarauderMap.ApiClient
             }
         }
 
-        private string FixStockName(string stockName)
+        private string FixStockNameForSplit(string stockName)
+        {
+            if (stockName.Contains('-'))
+            {
+                string[] splits = stockName.Split('-');
+                return splits[0];
+            }
+            return stockName;
+        }
+
+        private string FixStockNameForDot(string stockName)
         {
             if (stockName.EndsWith('.'))
             {

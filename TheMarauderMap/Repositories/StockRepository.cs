@@ -17,6 +17,20 @@ namespace TheMarauderMap.Repositories
             this.cosmosDbService = cosmosDbService;
             this.retryStrategy = retryStrategy;
         }
+
+        public async Task DeleteStock(string stockId)
+        {
+            var container = FetchContainer();
+            try
+            {
+                await container.DeleteItemAsync<Stock>(stockId, new PartitionKey(stockId));
+            }
+            catch (CosmosException e)
+            {
+                this._logger.LogError($"Exception in Deleting stock {e.Message} \n {e.StackTrace}");
+            }
+        }
+
         public async Task<List<Stock>> GetAllStocks()
         {
             List<Stock> allStocks = new List<Stock>();

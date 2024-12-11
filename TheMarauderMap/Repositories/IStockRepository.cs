@@ -10,5 +10,7 @@ namespace TheMarauderMap.Repositories
 
         public Task<bool> StockExists(string stockId);
 
+        public Task DeleteStock(string stockId);
+
     }
 }

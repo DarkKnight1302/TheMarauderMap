@@ -96,6 +96,7 @@ namespace TheMarauderMap.Controller
                     if (stockFundamentals == null)
                     {
                         this.logger.LogError($"Stock fundamentals not found for {stock.Name} : {stock.TradingSymbol}");
+                        await this.stockRepository.DeleteStock(stock.Id);
                         continue;
                     }
                     this.logger.LogInformation($"Saving stock Fundamentals for stock {stock.TradingSymbol} - {JsonUtil.SerializeObject(stockFundamentals)}");

@@ -9,5 +9,7 @@ namespace TheMarauderMap.Responses
         public double GainPercent { get; set; }
 
         public double LastPrice { get; set; }
+
+        public int Score { get; set; }
     }
 }

@@ -13,18 +13,21 @@ namespace TheMarauderMap.Services
         private readonly IUpstoxApiClient _upstoxApiClient;
         private readonly IUserBlackListRepository _userBlackListRepository;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IStockScoringService scoringService;
 
         public StockRecommendationService(IStockRepository stockRepository,
             IUpstoxApiClient upstoxApiClient,
             IAccessTokenService accessTokenService,
             IUserBlackListRepository userBlackListRepository,
-            ISessionRepository sessionRepository)
+            ISessionRepository sessionRepository,
+            IStockScoringService stockScoringService)
         {
             this._stockRepository = stockRepository;
             this._upstoxApiClient = upstoxApiClient;
             this._accessTokenService = accessTokenService;
             this._userBlackListRepository = userBlackListRepository;
             this._sessionRepository = sessionRepository;
+            this.scoringService = stockScoringService;
         }
 
         public async Task<List<RecommendedStock>> RecommendStocks(string sessionId)
@@ -54,8 +57,7 @@ namespace TheMarauderMap.Services
                 recommendedStock.Uid = stock.Uid;
                 recommendedStocks.Add(recommendedStock);
             }
-            recommendedStocks.Sort(Compare);
-            recommendedStocks = recommendedStocks.Take(10).ToList();
+            recommendedStocks = await this.GetTop10Stocks(recommendedStocks);
             List<string> stocksIds = recommendedStocks.Select(x => x.Id).ToList();
             string accessToken = await this._accessTokenService.FetchAccessToken(sessionId);
             if (!string.IsNullOrEmpty(accessToken))
@@ -87,6 +89,25 @@ namespace TheMarauderMap.Services
                 return false;
             }
             return true;
+        }
+
+        private async Task<List<RecommendedStock>> GetTop10Stocks(List<RecommendedStock> recommendedStocks)
+        {
+            recommendedStocks.Sort(Compare);
+            recommendedStocks = recommendedStocks.Take(50).ToList();
+            List<Stock> stockObjects = recommendedStocks.Select(x => (Stock)x).ToList();
+            Dictionary<string, int> stockGrowthScoreMap = await this.scoringService.GetStockGrowthScores(stockObjects);
+            foreach(RecommendedStock recommendedStock in recommendedStocks)
+            {
+                recommendedStock.Score = stockGrowthScoreMap[recommendedStock.Id];
+            }
+            recommendedStocks.Sort((a, b) =>
+            {
+                int ascore = a.Score;
+                int bscore = b.Score;
+                return bscore.CompareTo(ascore);
+            });
+            return recommendedStocks.Take(10).ToList();
         }
 
         public int Compare(RecommendedStock s1, RecommendedStock s2)

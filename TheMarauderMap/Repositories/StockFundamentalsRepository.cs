@@ -34,11 +34,11 @@ namespace TheMarauderMap.Repositories
             return staleStocks;
         }
 
-        public async Task<Dictionary<string, StockFundamentals>> GetStockFundamentals(List<string> stockIds)
+        public async Task<Dictionary<string, StockFundamentals>> GetStockFundamentals(List<string> stockSymbolIds)
         {
             Dictionary<string, StockFundamentals> result = new Dictionary<string, StockFundamentals>();
             var container = FetchContainer();
-            IReadOnlyList<(string id, PartitionKey PartitionKey)> stockInput = stockIds.Select(x => (x, new PartitionKey(x))).ToList();
+            IReadOnlyList<(string id, PartitionKey PartitionKey)> stockInput = stockSymbolIds.Select(x => (x, new PartitionKey(x))).ToList();
             FeedResponse<StockFundamentals> stockFundamentalFeedResp = await container.ReadManyItemsAsync<StockFundamentals>(stockInput).ConfigureAwait(false);
             foreach (var stock in stockFundamentalFeedResp)
             {

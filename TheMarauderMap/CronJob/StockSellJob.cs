@@ -132,6 +132,10 @@ namespace TheMarauderMap.CronJob
                     sb.AppendLine($"stock gain greater than 8 percent and current price less than highest price");
                     return true;
                 }
+                if ((currentDate - stock.BuyTime).Days > 60 && stock.CurrentPrice > stock.BuyPrice)
+                {
+                    return true;
+                }
             }
             return false;
         }

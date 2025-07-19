@@ -139,8 +139,9 @@
         }
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
         var uri = new Uri(navigation.Uri);
-        string domain = "https://themaraudermap1--0000003.happyfield-f85fc78d.southindia.azurecontainerapps.io/";
+        string domain = uri.GetLeftPart(UriPartial.Authority);
         string redirectUri = $"{domain}api/OAuth/callback";
+        Console.WriteLine($"Value of Redirect Uri {redirectUri}");
         string userSessionId = await sessionRepository.CreateNewSession();
         await sessionStorage.SetItemAsync<string>(GlobalConstants.SessionIdKey, userSessionId);
         var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";

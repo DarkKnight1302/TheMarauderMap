@@ -10,6 +10,7 @@
 @inject IJSRuntime jsRuntime;
 @inject ISessionRepository sessionRepository;
 @inject ISessionStorageService sessionStorage;
+@inject NavigationManager navigation;
 
 <PageTitle>The Marauder Map - All Secrets Revealed</PageTitle>
 
@@ -28,71 +29,71 @@
 
 <style>
     body {
-        background: url("/images/Map.jpeg") right;
-        background-size: cover;
-        font-family: 'Cursive', sans-serif;
-        color: #5e3b1b; /* Dark brown text for a parchment-like look */
-        margin: 0;
+    background: url("/images/Map.jpeg") right;
+    background-size: cover;
+    font-family: 'Cursive', sans-serif;
+    color: #5e3b1b; /* Dark brown text for a parchment-like look */
+    margin: 0;
     }
 
     .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-        text-align: center;
-        padding: 20px;
-        color: #5e3b1b;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+    color: #5e3b1b;
     }
 
     .header {
-        margin-bottom: 50px;
+    margin-bottom: 50px;
     }
 
     .title {
-        font-size: 60px;
-        font-family: 'Luminari', 'Segoe Script', cursive;
-        color: #432d15; /* Dark brown color to match the theme */
-        text-shadow: 2px 2px #d3a243;
+    font-size: 60px;
+    font-family: 'Luminari', 'Segoe Script', cursive;
+    color: #432d15; /* Dark brown color to match the theme */
+    text-shadow: 2px 2px #d3a243;
     }
 
     .subtitle {
-        font-size: 20px;
-        font-family: 'Cinzel', serif; /* Harry Potter-esque font */
-        letter-spacing: 2px;
-        color: #432d15;
-        margin-bottom: 30px;
-        margin-right: 160px;
-        margin-top: 50px;
-        text-shadow: 2px 2px 4px #d3a243, 0 0 10px #f4e285; /* Glowing magical effect */
-        text-transform: uppercase;
+    font-size: 20px;
+    font-family: 'Cinzel', serif; /* Harry Potter-esque font */
+    letter-spacing: 2px;
+    color: #432d15;
+    margin-bottom: 30px;
+    margin-right: 160px;
+    margin-top: 50px;
+    text-shadow: 2px 2px 4px #d3a243, 0 0 10px #f4e285; /* Glowing magical effect */
+    text-transform: uppercase;
     }
 
     .cool-button {
-        font-size: 18px;
-        padding: 15px 30px;
-        background-color: #8b4513; /* Wizardly brownish color */
-        color: white;
-        border: none;
-        border-radius: 15px;
-        text-transform: uppercase;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        margin-top: auto;
+    font-size: 18px;
+    padding: 15px 30px;
+    background-color: #8b4513; /* Wizardly brownish color */
+    color: white;
+    border: none;
+    border-radius: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-top: auto;
     }
 
-        .cool-button:hover {
-            background-color: #a0522d; /* Lighter shade of brown */
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-            transform: translateY(-3px); /* Slight lift effect on hover */
-        }
+    .cool-button:hover {
+    background-color: #a0522d; /* Lighter shade of brown */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Slight lift effect on hover */
+    }
 
     .content {
-        margin-top: auto;
-        margin-right: 200px;
-        margin-bottom: 80px;
+    margin-top: auto;
+    margin-right: 200px;
+    margin-bottom: 80px;
     }
 </style>
 
@@ -137,7 +138,9 @@
             }
         }
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
-        string redirectUri = secretService.GetSecretValue("redirect_uri");
+        var uri = new Uri(navigation.Uri);
+        string domain = uri.GetLeftPart(UriPartial.Authority);
+        string redirectUri = $"{domain}/api/OAuth/callback";
         string userSessionId = await sessionRepository.CreateNewSession();
         await sessionStorage.SetItemAsync<string>(GlobalConstants.SessionIdKey, userSessionId);
         var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";

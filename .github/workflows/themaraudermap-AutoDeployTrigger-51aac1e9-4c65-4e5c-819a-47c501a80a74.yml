@@ -1,0 +1,49 @@
+name: Trigger auto deployment for themaraudermap
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/themaraudermap-AutoDeployTrigger-51aac1e9-4c65-4e5c-819a-47c501a80a74.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.THEMARAUDERMAP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.THEMARAUDERMAP_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.THEMARAUDERMAP_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: 
+          registryUsername: ${{ secrets.THEMARAUDERMAP_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.THEMARAUDERMAP_REGISTRY_PASSWORD }}
+          containerAppName: themaraudermap
+          resourceGroup: DefaultResourceGroup-CID
+          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+

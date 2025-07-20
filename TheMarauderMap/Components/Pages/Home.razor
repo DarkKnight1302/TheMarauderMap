@@ -138,10 +138,7 @@
             }
         }
         var clientId = secretService.GetSecretValue("UptstoxApiKey");
-        var uri = new Uri(navigation.Uri);
-        string domain = uri.GetLeftPart(UriPartial.Authority);
-        string redirectUri = $"{domain}/api/OAuth/callback";
-        Console.WriteLine($"Value of Redirect Uri {redirectUri}");
+        string redirectUri = secretService.GetSecretValue("redirect_uri")
         string userSessionId = await sessionRepository.CreateNewSession();
         await sessionStorage.SetItemAsync<string>(GlobalConstants.SessionIdKey, userSessionId);
         var upstoxLoginUrl = $"https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id={clientId}&redirect_uri={redirectUri}&state={userSessionId}";

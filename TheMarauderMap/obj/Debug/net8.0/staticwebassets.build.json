@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9TNNITowuAuRq3HF13CVCQ88xSYUCs34KIvrze6jaKI=",
+  "Hash": "KWgWHyRDvKZH8rZg/oU824svlP39SkhFBvSmZ/nRY5g=",
   "Source": "TheMarauderMap",
   "BasePath": "_content/TheMarauderMap",
   "Mode": "Default",
@@ -22,7 +22,7 @@
       "SourceType": "Computed",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "TheMarauderMap.styles.css",
+      "RelativePath": "TheMarauderMap#[.{fingerprint}]?.styles.css",
       "AssetKind": "All",
       "AssetMode": "CurrentProject",
       "AssetRole": "Primary",
@@ -31,6 +31,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
+      "Fingerprint": "pkmrzxnxkb",
+      "Integrity": "CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TheMarauderMap.styles.css"
@@ -41,7 +43,7 @@
       "SourceType": "Computed",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "TheMarauderMap.bundle.scp.css",
+      "RelativePath": "TheMarauderMap#[.{fingerprint}]!.bundle.scp.css",
       "AssetKind": "All",
       "AssetMode": "Reference",
       "AssetRole": "Primary",
@@ -50,6 +52,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
+      "Fingerprint": "pkmrzxnxkb",
+      "Integrity": "CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TheMarauderMap.bundle.scp.css"
@@ -60,15 +64,17 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "app.css",
+      "RelativePath": "app#[.{fingerprint}]?.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "da95v2qkru",
+      "Integrity": "u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
@@ -79,15 +85,17 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "bootstrap/bootstrap.min.css",
+      "RelativePath": "bootstrap/bootstrap.min#[.{fingerprint}]?.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "6gzpyzhau4",
+      "Integrity": "SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
@@ -98,15 +106,17 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "bootstrap/bootstrap.min.css.map",
+      "RelativePath": "bootstrap/bootstrap.min.css#[.{fingerprint}]?.map",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "8inm30yfxf",
+      "Integrity": "gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
@@ -117,15 +127,17 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "favicon.png",
+      "RelativePath": "favicon#[.{fingerprint}]?.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "ifv42okdf2",
+      "Integrity": "4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
@@ -136,15 +148,17 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "images/Map.jpeg",
+      "RelativePath": "images/Map#[.{fingerprint}]?.jpeg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "j8ux8gfwll",
+      "Integrity": "U0+yqJaoR8VE4h3ik+jezanom2+yvnnISFWanFcLspI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\Map.jpeg"
@@ -155,18 +169,678 @@
       "SourceType": "Discovered",
       "ContentRoot": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\",
       "BasePath": "_content/TheMarauderMap",
-      "RelativePath": "images/OpenMap1.jpg",
+      "RelativePath": "images/OpenMap1#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "1m6nbv2684",
+      "Integrity": "xxcAQq0m6NSMbkB+A4b4v6yCYWY2td+FIsmkwW0jUrM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\OpenMap1.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "app.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2591"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE="
+        }
+      ]
+    },
+    {
+      "Route": "app.da95v2qkru.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\app.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2591"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "da95v2qkru"
+        },
+        {
+          "Name": "label",
+          "Value": "app.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-u9qEka1auR7E3rd3/8/j8hkQdSOYj9bRJ4nYiFDR1sE="
+        }
+      ]
+    },
+    {
+      "Route": "bootstrap/bootstrap.min.6gzpyzhau4.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6gzpyzhau4"
+        },
+        {
+          "Name": "label",
+          "Value": "bootstrap/bootstrap.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "bootstrap/bootstrap.min.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+        }
+      ]
+    },
+    {
+      "Route": "bootstrap/bootstrap.min.css.8inm30yfxf.map",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "449111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8inm30yfxf"
+        },
+        {
+          "Name": "label",
+          "Value": "bootstrap/bootstrap.min.css.map"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "bootstrap/bootstrap.min.css.map",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "449111"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 01 Aug 2024 21:39:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.ifv42okdf2.png",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\favicon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1148"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Sep 2024 14:19:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ifv42okdf2"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.png",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\favicon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1148"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Sep 2024 14:19:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg="
+        }
+      ]
+    },
+    {
+      "Route": "images/Map.j8ux8gfwll.jpeg",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\Map.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "236660"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"U0+yqJaoR8VE4h3ik+jezanom2+yvnnISFWanFcLspI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 12 Sep 2024 19:46:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "j8ux8gfwll"
+        },
+        {
+          "Name": "label",
+          "Value": "images/Map.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-U0+yqJaoR8VE4h3ik+jezanom2+yvnnISFWanFcLspI="
+        }
+      ]
+    },
+    {
+      "Route": "images/Map.jpeg",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\Map.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "236660"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"U0+yqJaoR8VE4h3ik+jezanom2+yvnnISFWanFcLspI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 12 Sep 2024 19:46:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-U0+yqJaoR8VE4h3ik+jezanom2+yvnnISFWanFcLspI="
+        }
+      ]
+    },
+    {
+      "Route": "images/OpenMap1.1m6nbv2684.jpg",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\OpenMap1.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "126132"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xxcAQq0m6NSMbkB+A4b4v6yCYWY2td+FIsmkwW0jUrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 12 Sep 2024 19:27:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1m6nbv2684"
+        },
+        {
+          "Name": "label",
+          "Value": "images/OpenMap1.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xxcAQq0m6NSMbkB+A4b4v6yCYWY2td+FIsmkwW0jUrM="
+        }
+      ]
+    },
+    {
+      "Route": "images/OpenMap1.jpg",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\wwwroot\\images\\OpenMap1.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "126132"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xxcAQq0m6NSMbkB+A4b4v6yCYWY2td+FIsmkwW0jUrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 12 Sep 2024 19:27:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xxcAQq0m6NSMbkB+A4b4v6yCYWY2td+FIsmkwW0jUrM="
+        }
+      ]
+    },
+    {
+      "Route": "TheMarauderMap.bundle.scp.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TheMarauderMap.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5911"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 20 Jul 2025 09:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM="
+        }
+      ]
+    },
+    {
+      "Route": "TheMarauderMap.pkmrzxnxkb.bundle.scp.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TheMarauderMap.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5911"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 20 Jul 2025 09:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pkmrzxnxkb"
+        },
+        {
+          "Name": "label",
+          "Value": "TheMarauderMap.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM="
+        }
+      ]
+    },
+    {
+      "Route": "TheMarauderMap.pkmrzxnxkb.styles.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TheMarauderMap.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5911"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 20 Jul 2025 09:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pkmrzxnxkb"
+        },
+        {
+          "Name": "label",
+          "Value": "TheMarauderMap.styles.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM="
+        }
+      ]
+    },
+    {
+      "Route": "TheMarauderMap.styles.css",
+      "AssetFile": "E:\\Projects\\TheMarauderMapSolution\\TheMarauderMap\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TheMarauderMap.styles.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5911"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 20 Jul 2025 09:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CYIEswY0Qk8i7PZr4j1+P4IZpisEvo+C6k5vymOcgrM="
+        }
+      ]
     }
   ]
 }

@@ -138,3 +138,7 @@ E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\refint\TheMar
 E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\TheMarauderMap.pdb
 E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\TheMarauderMap.genruntimeconfig.cache
 E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\ref\TheMarauderMap.dll
+E:\Projects\TheMarauderMapSolution\TheMarauderMap\bin\Debug\net8.0\TheMarauderMap.staticwebassets.endpoints.json
+E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\staticwebassets\msbuild.TheMarauderMap.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+E:\Projects\TheMarauderMapSolution\TheMarauderMap\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
